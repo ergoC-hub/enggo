@@ -1,1086 +1,1097 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>EngGo 🚀</title>
-
-  <!-- ── PWA 필수 메타태그 ── -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#5B5FE8">
-  <meta name="mobile-web-app-capable" content="yes">
-
-  <!-- iOS Safari PWA 지원 -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="EngGo">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-
-  <!-- Tabler 아이콘 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-
-  <!-- Pretendard 폰트 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>EngGo 🚀</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6A6CF0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="EngGo">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{font-family:'Noto Sans KR',sans-serif;background:#F2F0FC;color:#2B2150}
+button,input,textarea{font-family:'Noto Sans KR',sans-serif}
+::-webkit-scrollbar{width:0;height:0}
 :root{
-  --primary:#5B5FE8;
-  --primary-light:#EEF0FF;
-  --primary-dark:#4B4FD8;
-  --text:#1a1a2e;
-  --text-sub:#666;
-  --text-hint:#999;
-  --bg:#fff;
-  --bg2:#f5f5f7;
-  --border:#e5e5e5;
-  --border2:#d0d0d0;
-  --radius:12px;
-  --radius-sm:8px;
-  --green:#059669;
-  --green-bg:#D1FAE5;
-  --red:#DC2626;
-  --red-bg:#FEE2E2;
-  --purple:#7C3AED;
-  --purple-bg:#F5F3FF;
-  --amber-bg:#FEF3C7;
-  --amber:#92400E;
+  --indigo:#6A6CF0;--indigoDeep:#4F50D6;--purple:#9B6DF3;
+  --cyan:#22C3DE;--mint:#34D9A4;--sun:#FFC93C;--coral:#FF6FA5;--flame:#FF8A4C;
+  --ink:#2B2150;--inkSoft:#6B6394;--muted:#A39CC4;--line:#ECE9F8;
+  --card:#FFFFFF;--bg:#F2F0FC;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --text:#e8e8f0;--text-sub:#aaa;--text-hint:#666;
-    --bg:#111118;--bg2:#1c1c26;--border:#2a2a38;--border2:#3a3a4a;
-    --primary-light:#1a1d3a;
-  }
-}
-body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overscroll-behavior:none}
-#app{max-width:420px;margin:0 auto;padding-bottom:72px;min-height:100vh}
-
-/* header */
-.hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:20}
-.logo{font-size:18px;font-weight:700;color:var(--text)}.logo span{color:var(--primary)}
-.hd-r{display:flex;align-items:center;gap:8px}
-.xp-pill{font-size:13px;background:var(--primary-light);color:var(--primary);padding:4px 11px;border-radius:20px;font-weight:600}
-.lvl-badge{font-size:12px;background:var(--amber-bg);color:var(--amber);padding:4px 10px;border-radius:20px;font-weight:600}
-
-/* screens */
-.sc{display:none;padding:18px}.sc.on{display:block}
-
-/* nav */
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;display:flex;background:var(--bg);border-top:1px solid var(--border);z-index:20}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 0 7px;cursor:pointer;color:var(--text-hint);font-size:10px;gap:2px;border:none;background:none;position:relative;font-family:'Pretendard',sans-serif}
-.ni.on{color:var(--primary)}.ni i{font-size:21px}
-.ndot{width:5px;height:5px;border-radius:50%;background:#EF4444;position:absolute;top:8px;right:calc(50% - 14px);display:none}
-.ndot.show{display:block}
-
-/* typography */
-.pg{font-size:21px;font-weight:700;color:var(--text);margin-bottom:3px}
-.ps{font-size:13px;color:var(--text-sub);margin-bottom:14px}
-.sec{font-size:12px;font-weight:600;color:var(--text-sub);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px;margin-top:16px}
-.sec:first-child{margin-top:0}
-
-/* cards & components */
-.ltabs{display:flex;gap:6px;margin-bottom:12px}
-.ltab{flex:1;padding:8px 0;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;background:var(--bg);color:var(--text-sub);text-align:center;transition:all .15s;font-family:'Pretendard',sans-serif}
-.ltab.on{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
-.fc{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:26px 20px;text-align:center;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;margin-bottom:8px;position:relative;transition:transform .1s}
-.fc:active{transform:scale(.98)}
-.fc-word{font-size:32px;font-weight:700;color:var(--text);margin-bottom:5px}
-.fc-pos{font-size:12px;color:var(--text-hint);margin-bottom:3px}
-.fc-hint{font-size:13px;color:var(--text-sub)}
-.fc-mean{font-size:22px;font-weight:700;color:var(--primary);margin-bottom:5px}
-.fc-ex{font-size:13px;color:var(--text-sub);font-style:italic;margin-bottom:3px}
-.fc-ko{font-size:12px;color:var(--text-hint)}
-.fc-tag{position:absolute;top:10px;right:10px;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600}
-.tag-b{background:#DBEAFE;color:#1E40AF}.tag-g{background:#D1FAE5;color:#065F46}.tag-r{background:#FEE2E2;color:#991B1B}
-
-/* TTS bar */
-.tts-bar{display:flex;align-items:center;gap:6px;padding:8px 10px;background:var(--bg2);border-radius:var(--radius-sm);margin-bottom:8px;flex-wrap:wrap}
-.tts-btn{display:inline-flex;align-items:center;gap:3px;font-size:12px;color:var(--primary);background:var(--primary-light);border:none;border-radius:14px;padding:4px 10px;cursor:pointer;font-family:'Pretendard',sans-serif;font-weight:600}
-.tts-btn.sm{font-size:11px;padding:3px 8px;margin-left:4px}
-.tts-btn.active{background:var(--primary);color:#fff}
-.spd-wrap{display:flex;align-items:center;gap:4px;margin-left:auto}
-.spd-l{font-size:11px;color:var(--text-sub)}
-.spd-btn{font-size:11px;padding:3px 7px;border:1px solid var(--border2);border-radius:12px;cursor:pointer;background:var(--bg);color:var(--text-sub);font-family:'Pretendard',sans-serif}
-.spd-btn.on{background:var(--primary);color:#fff;border-color:var(--primary)}
-
-/* progress */
-.prog{height:6px;background:var(--bg2);border-radius:3px;margin-bottom:14px;overflow:hidden}
-.prog-f{height:100%;background:var(--primary);border-radius:3px;transition:width .4s}
-.wc{font-size:13px;color:var(--text-sub);text-align:right;margin-bottom:4px}
-.flip-hint{font-size:12px;color:var(--text-hint);text-align:center;margin-bottom:8px}
-
-/* buttons */
-.btn-row{display:flex;gap:8px}
-.btn{flex:1;padding:11px;border-radius:var(--radius-sm);border:1px solid var(--border2);font-size:14px;font-weight:600;cursor:pointer;background:var(--bg);color:var(--text);font-family:'Pretendard',sans-serif;transition:transform .1s}
-.btn:active{transform:scale(.97)}
-.btn-w{background:var(--red-bg);border-color:#FECACA;color:var(--red)}
-.btn-r{background:var(--green-bg);border-color:#A7F3D0;color:var(--green)}
-.btn-p{background:var(--primary);color:#fff;border:none;width:100%;padding:13px;border-radius:var(--radius-sm);font-size:15px;font-weight:700;cursor:pointer;font-family:'Pretendard',sans-serif;transition:background .15s}
-.btn-p:hover{background:var(--primary-dark)}
-.btn-p:disabled{background:var(--bg2);color:var(--text-hint);cursor:not-allowed}
-.btn-sm{font-size:12px;padding:6px 14px;border:1px solid var(--border2);border-radius:20px;cursor:pointer;background:var(--bg);color:var(--text-sub);font-family:'Pretendard',sans-serif}
-
-/* level row */
-.lvl-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.lvl-num{width:42px;height:42px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--primary);flex-shrink:0}
-.lvl-info{flex:1}
-.lvl-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
-.lvl-bar{height:8px;background:var(--bg2);border-radius:4px;overflow:hidden}
-.lvl-fill{height:100%;background:var(--primary);border-radius:4px;transition:width .5s}
-.lvl-xp{font-size:12px;color:var(--text-sub);margin-top:3px}
-
-/* streak & home modules */
-.streak{background:var(--primary-light);border-radius:var(--radius);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.streak-n{font-size:28px;font-weight:700;color:var(--primary)}
-.streak-l{font-size:12px;color:var(--primary);opacity:.8}
-.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px}
-.mc{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:13px;cursor:pointer;transition:transform .15s}
-.mc:hover{transform:translateY(-2px)}.mc:active{transform:scale(.97)}
-.mc-ic{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:8px}
-.ic-bl{background:#E8EFFE}.ic-gr{background:#E6F4EA}.ic-or{background:#FEF3E2}.ic-pk{background:#FCE8F1}.ic-tl{background:#E0F5F0}
-.mc-n{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
-.mc-d{font-size:12px;color:var(--text-sub)}
-.mc-badge{font-size:11px;padding:2px 7px;border-radius:20px;display:inline-block;margin-top:4px;font-weight:600}
-.bd-ai{background:#EDE9FE;color:#7C3AED}.bd-new{background:var(--red-bg);color:var(--red)}
-
-/* form */
-textarea{width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:15px;font-family:'Pretendard',sans-serif;color:var(--text);background:var(--bg);resize:none;outline:none;line-height:1.6;margin-bottom:10px}
-textarea:focus{border-color:var(--primary)}
-.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
-.topic-btn{padding:9px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;cursor:pointer;background:var(--bg);color:var(--text);text-align:left;font-family:'Pretendard',sans-serif;font-weight:500;transition:all .15s}
-.topic-btn:hover,.topic-btn.on{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
-.hint-box{background:var(--primary-light);border-radius:var(--radius-sm);padding:9px 12px;font-size:13px;color:var(--primary);margin-bottom:12px;line-height:1.5}
-
-/* result */
-.res{border-radius:var(--radius);padding:14px;margin-top:12px}
-.res.load{background:var(--bg2);text-align:center;color:var(--text-sub);font-size:14px;padding:22px}
-.res.done{background:var(--bg);border:1px solid var(--border)}
-.res-sec{margin-bottom:12px}
-.res-lbl{font-size:12px;font-weight:600;color:var(--text-sub);margin-bottom:5px;display:flex;align-items:center;gap:4px}
-.rdot{width:7px;height:7px;border-radius:50%;display:inline-block}
-.dot-r{background:#EF4444}.dot-g{background:#10B981}.dot-b{background:var(--primary)}
-.res-box{font-size:14px;color:var(--text);line-height:1.65;background:var(--bg2);border-radius:var(--radius-sm);padding:9px 11px}
-.err-del{color:var(--red);text-decoration:line-through;margin-right:3px}
-.err-fix{color:var(--green);font-weight:600}
-.divider{height:1px;background:var(--border);margin:10px 0}
-.praise-box{font-size:13px;color:var(--purple);background:var(--purple-bg);border-radius:var(--radius-sm);padding:9px 11px}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* chat */
-.chat-wrap{max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:9px;margin-bottom:10px}
-.cm{display:flex;gap:7px;align-items:flex-start}
-.cm.u{flex-direction:row-reverse}
-.ca{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--primary-light)}
-.cb{max-width:78%;padding:9px 13px;border-radius:14px;font-size:14px;line-height:1.5}
-.cb.ai{background:var(--bg2);border-radius:4px 14px 14px 14px}
-.cb.me{background:var(--primary);color:#fff;border-radius:14px 14px 4px 14px}
-.ci-row{display:flex;gap:7px;align-items:flex-end}
-.ci-row textarea{margin-bottom:0;min-height:42px;max-height:90px}
-.send{width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
-.send:disabled{background:var(--bg2);color:var(--text-hint);cursor:not-allowed}
-.mic-btn{width:42px;height:42px;border-radius:50%;background:var(--bg2);color:var(--text-sub);border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;transition:all .2s}
-.mic-btn.listening{background:#EF4444;color:#fff;border-color:#EF4444;animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.stt-status{font-size:12px;color:var(--text-sub);text-align:center;margin-top:5px;min-height:18px}
-
-/* odam */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
-.stat{background:var(--bg2);border-radius:var(--radius-sm);padding:11px 8px;text-align:center}
-.stat-n{font-size:22px;font-weight:700;color:var(--text)}
-.stat-l{font-size:11px;color:var(--text-sub);margin-top:2px}
-.on-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.on-word{font-size:15px;font-weight:700;color:var(--text)}
-.on-mean{font-size:12px;color:var(--text-sub);margin-top:2px}
-.on-wrong{font-size:11px;color:var(--red);background:var(--red-bg);padding:2px 7px;border-radius:20px;font-weight:600}
-.on-wri{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px;margin-bottom:8px}
-.on-orig{font-size:13px;color:var(--text-sub);margin-bottom:3px}
-.on-corr{font-size:14px;color:var(--green);font-weight:600}
-.on-date{font-size:11px;color:var(--text-hint);margin-top:3px}
-.empty{text-align:center;color:var(--text-sub);font-size:14px;padding:28px 0}
-
-/* mission / story */
-.mission-wrap{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:10px}
-.xp-tag{display:inline-flex;align-items:center;gap:3px;font-size:12px;background:var(--amber-bg);color:var(--amber);padding:3px 9px;border-radius:20px;margin-bottom:9px;font-weight:600}
-.story-box{background:#FDF8FF;border:1px solid #DDD6FE;border-radius:var(--radius);padding:13px;margin-bottom:12px;font-size:14px;line-height:1.7}
-.story-by{font-size:11px;color:var(--purple);font-weight:700;margin-bottom:4px}
-
-/* stats chart */
-.chart-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:10px}
-.chart-ttl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px}
-.bar-area{display:flex;align-items:flex-end;gap:5px;height:90px;margin-bottom:6px}
-.bw{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
-.bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;transition:height .5s}
-.bar-today{background:var(--primary)}
-.bar-past{background:#C7CAF5}
-.bar-lbl{font-size:10px;color:var(--text-hint)}
-.bar-val{font-size:10px;color:var(--text-sub);font-weight:600;min-height:14px}
-.legend{display:flex;gap:10px;margin-top:2px}
-.leg{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-sub)}
-.leg-sq{width:8px;height:8px;border-radius:2px}
-.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.sum-c{background:var(--bg2);border-radius:10px;padding:11px}
-.sum-n{font-size:20px;font-weight:700;color:var(--text)}
-.sum-l{font-size:11px;color:var(--text-sub);margin-top:2px}
-.mod-row{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border)}
-.mod-row:last-child{border-bottom:none}
-.mod-ic{font-size:17px;width:28px;text-align:center}
-.mod-inf{flex:1}
-.mod-n{font-size:13px;font-weight:600;color:var(--text)}
-.mod-bw{height:4px;background:var(--bg2);border-radius:2px;margin-top:4px;overflow:hidden}
-.mod-bf{height:100%;border-radius:2px;transition:width .6s}
-.mod-cnt{font-size:12px;color:var(--text-sub);white-space:nowrap}
-
-/* toast & back */
-#toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;font-size:13px;padding:8px 16px;border-radius:20px;opacity:0;transition:opacity .3s;z-index:99;white-space:nowrap;pointer-events:none}
-#toast.show{opacity:1}
-.bk{display:flex;align-items:center;gap:5px;font-size:14px;color:var(--text-sub);cursor:pointer;margin-bottom:14px;background:none;border:none;padding:0;font-family:'Pretendard',sans-serif}
+#app{max-width:420px;margin:0 auto;height:100vh;display:flex;flex-direction:column;position:relative;background:var(--bg)}
+#scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.sc{display:none;padding:0 0 20px}.sc.on{display:block}
+.nav{display:flex;background:#fff;border-top:1px solid var(--line);padding:6px 6px 4px;box-shadow:0 -6px 20px rgba(79,80,214,.06)}
+.ni{flex:1;border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0}
+.ni-bubble{width:44px;height:32px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:19px;transition:all .2s}
+.ni.on .ni-bubble{background:linear-gradient(135deg,#EEF0FF,#F4EBFF)}
+.ni:not(.on) .ni-bubble{filter:grayscale(.4) opacity(.6)}
+.ni span{font-family:'Jua',sans-serif;font-size:10.5px;color:var(--muted);white-space:nowrap}
+.ni.on span{color:var(--indigo)}
+.card{background:#fff;border-radius:22px;padding:16px;box-shadow:0 8px 22px rgba(79,80,214,.08);border:1px solid #F0EDFA}
+.pill{display:inline-flex;align-items:center;gap:4px;background:#F1EFFD;color:var(--indigoDeep);font-family:'Jua',sans-serif;font-size:12.5px;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.btn-p{width:100%;border:none;cursor:pointer;background:var(--indigo);color:#fff;font-family:'Jua',sans-serif;font-size:18px;padding:15px 22px;border-radius:18px;box-shadow:0 6px 0 rgba(79,80,214,.55);transition:transform .06s,box-shadow .06s;letter-spacing:.3px}
+.btn-p:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(79,80,214,.55)}
+.btn-g{border:2.5px solid var(--indigo);background:#fff;color:var(--indigo);font-family:'Jua',sans-serif;font-size:16px;padding:12px 18px;border-radius:16px;cursor:pointer}
+.seg-tabs{display:flex;gap:6px;background:#EDEAF8;padding:5px;border-radius:16px}
+.seg-tab{flex:1;border:none;cursor:pointer;padding:9px 6px;border-radius:12px;font-family:'Jua',sans-serif;font-size:14px;background:transparent;color:var(--muted);transition:all .15s}
+.seg-tab.on{background:#fff;color:var(--indigo);box-shadow:0 3px 8px rgba(79,80,214,.14)}
+.prog-wrap{width:100%;border-radius:999px;overflow:hidden;position:relative}
+.prog-fill{height:100%;border-radius:999px;transition:width .6s cubic-bezier(.34,1.56,.64,1);position:relative}
+.prog-fill::after{content:'';position:absolute;top:3px;left:8px;right:8px;height:28%;border-radius:999px;background:rgba(255,255,255,.45)}
+.sc-hdr{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.back-btn{width:40px;height:40px;border-radius:14px;border:none;background:#fff;box-shadow:0 3px 10px rgba(79,80,214,.10);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+textarea,input[type=text],input[type=email],input[type=password]{width:100%;border:1.5px solid #E0DDEE;border-radius:14px;padding:13px 15px;font-size:15px;color:var(--ink);background:#fff;resize:none;outline:none;line-height:1.6}
+textarea:focus,input:focus{border-color:var(--indigo)}
+.fc-wrap{perspective:1200px;cursor:pointer}
+.fc-inner{position:relative;height:380px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.34,1.4,.64,1)}
+.fc-inner.flipped{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:26px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.fc-front{background:linear-gradient(165deg,#fff,#F4F2FF);border:1px solid #ECE7FB;box-shadow:0 14px 34px rgba(79,80,214,.12);opacity:1;transition:opacity .01s linear .25s}
+.fc-back{background:linear-gradient(165deg,#6A6CF0,#9B6DF3);color:#fff;box-shadow:0 14px 34px rgba(79,80,214,.28);transform:rotateY(180deg);opacity:0;transition:opacity .01s linear .25s}
+.fc-inner.flipped .fc-front{opacity:0}
+.fc-inner.flipped .fc-back{opacity:1}
+.chat-bubble{padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.5}
+.cb-ai{background:#fff;border-radius:4px 18px 18px 18px;box-shadow:0 3px 12px rgba(79,80,214,.08)}
+.cb-me{background:var(--indigo);color:#fff;border-radius:18px 18px 4px 18px}
+.badge-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.badge-item{border-radius:18px;padding:14px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;border:2px solid transparent}
+.badge-item.unlocked{background:#fff;box-shadow:0 4px 14px rgba(79,80,214,.09)}
+.badge-item.locked{background:#F7F5FD;opacity:.7}
+.bar-chart-wrap{display:flex;align-items:flex-end;gap:5px;height:90px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.bar-rect{width:100%;border-radius:6px 6px 0 0;min-height:4px;transition:height .5s}
+.bar-lbl{font-size:11px;color:var(--muted);font-family:'Jua',sans-serif}
+.bar-val{font-size:10px;color:var(--inkSoft);font-weight:500;min-height:14px}
+.podium-wrap{display:flex;align-items:flex-end;justify-content:center;gap:10px;padding:20px 0 0}
+.podium-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+.podium-base{display:flex;align-items:center;justify-content:center;border-radius:12px 12px 0 0}
+#toast{position:fixed;bottom:86px;left:50%;transform:translate(-50%,0);z-index:80;background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-family:'Jua',sans-serif;font-size:14px;white-space:nowrap;box-shadow:0 8px 22px rgba(43,33,80,.3);opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1;animation:toastUp .3s cubic-bezier(.34,1.56,.64,1)}
+#overlay{position:fixed;inset:0;z-index:70;background:rgba(43,33,80,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:24px}
+#overlay.show{display:flex;animation:fadeIn .2s ease}
+.ov-card{background:#fff;border-radius:28px;padding:28px 22px 22px;width:100%;max-width:320px;text-align:center;position:relative;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 24px 60px rgba(43,33,80,.35)}
+.ov-icon{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:84px;height:84px;border-radius:26px;background:var(--indigo);display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 10px 24px rgba(106,108,240,.4);animation:badgePop .5s cubic-bezier(.34,1.56,.64,1)}
+.rw-chip{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--bg);border-radius:16px;padding:12px 16px;min-width:72px}
+.thinking span{display:inline-block;animation:bounce 1s ease-in-out infinite}
+.thinking span:nth-child(2){animation-delay:.15s}
+.thinking span:nth-child(3){animation-delay:.3s}
+.mascot-float{animation:mascotFloat 3.2s ease-in-out infinite}
+@keyframes mascotFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-8px) rotate(1deg)}}
+@keyframes confettiFall{0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:1}100%{transform:translateY(640px) translateX(var(--drift,0px)) rotate(720deg);opacity:0}}
+@keyframes popIn{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes badgePop{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.18) rotate(8deg)}100%{transform:scale(1) rotate(0deg)}}
+@keyframes wiggle{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes toastUp{from{transform:translate(-50%,16px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
 </style>
 </head>
 <body>
 <div id="app">
-<div class="hd">
-  <div class="logo">Eng<span>Go</span> 🚀</div>
-  <div class="hd-r">
-    <div class="lvl-badge" id="hd-lvl">Lv.1 새싹</div>
-    <div class="xp-pill">⭐ <span id="hd-xp">0</span> XP</div>
-  </div>
-</div>
-<div id="toast"></div>
+<div id="scroll-area">
 
-<!-- HOME -->
-<div id="sc-home" class="sc on">
-  <div class="streak"><div><div class="streak-n" id="streak-n">1</div><div class="streak-l">일 연속 학습 🔥</div></div><div style="font-size:32px">🔥</div></div>
-  <div class="lvl-row">
-    <div class="lvl-num" id="h-lnum">1</div>
-    <div class="lvl-info">
-      <div class="lvl-name" id="h-lname">🌱 새싹 단계</div>
-      <div class="lvl-bar"><div class="lvl-fill" id="h-lbar" style="width:0%"></div></div>
-      <div class="lvl-xp" id="h-lxp">0 / 100 XP</div>
+<!-- LOGIN -->
+<div id="sc-login" class="sc on">
+  <div style="text-align:center;padding:48px 0 28px">
+    <div id="login-mascot"></div>
+    <div style="font-family:'Jua',sans-serif;font-size:28px;color:var(--ink);margin-top:8px">EngGo 🚀</div>
+    <div style="font-size:14px;color:var(--inkSoft);margin-top:4px">AI 영어 학습 앱</div>
+  </div>
+  <div style="background:#fff;border-radius:22px;padding:22px;box-shadow:0 8px 22px rgba(79,80,214,.08);border:1px solid #F0EDFA;margin:0 16px 16px">
+    <div class="seg-tabs" style="margin-bottom:16px">
+      <button class="seg-tab on" id="tab-login" onclick="switchTab('login')">로그인</button>
+      <button class="seg-tab" id="tab-signup" onclick="switchTab('signup')">회원가입</button>
+    </div>
+    <div id="login-form">
+      <input id="login-email" type="email" placeholder="이메일" style="margin-bottom:8px">
+      <input id="login-pw" type="password" placeholder="비밀번호" style="margin-bottom:12px">
+      <button class="btn-p" onclick="doLogin()">로그인</button>
+      <div id="login-msg" style="margin-top:10px;font-size:13px;text-align:center;min-height:20px"></div>
+    </div>
+    <div id="signup-form" style="display:none">
+      <input id="signup-email" type="email" placeholder="이메일" style="margin-bottom:8px">
+      <input id="signup-nick" type="text" placeholder="닉네임" style="margin-bottom:8px">
+      <input id="signup-pw" type="password" placeholder="비밀번호 (6자 이상)" style="margin-bottom:12px">
+      <button class="btn-p" onclick="doSignup()">회원가입</button>
+      <div id="signup-msg" style="margin-top:10px;font-size:13px;text-align:center;min-height:20px"></div>
     </div>
   </div>
-  <div class="sec">학습 모듈</div>
-  <div class="mgrid">
-    <div class="mc" onclick="go('sc-quiz')"><div class="mc-ic ic-bl">📖</div><div class="mc-n">단어 퀴즈</div><div class="mc-d">레벨별 플래시카드</div><span class="mc-badge bd-ai">⚡ 3단계</span></div>
-    <div class="mc" onclick="go('sc-writing')"><div class="mc-ic ic-gr">✍️</div><div class="mc-n">영작 교정</div><div class="mc-d">AI가 교정해줘요</div><span class="mc-badge bd-ai">🤖 AI</span></div>
-    <div class="mc" onclick="go('sc-chat')"><div class="mc-ic ic-or">💬</div><div class="mc-n">AI 회화</div><div class="mc-d">대화 연습</div><span class="mc-badge bd-ai">🤖 AI</span></div>
-    <div class="mc" onclick="go('sc-mission')"><div class="mc-ic ic-pk">🎯</div><div class="mc-n">오늘의 미션</div><div class="mc-d">XP 보상</div><span class="mc-badge bd-new">★ NEW</span></div>
+  <div style="text-align:center;font-size:12px;color:var(--muted);padding:0 24px">학습 데이터는 서버에 안전하게 저장돼요</div>
+</div>
+
+<!-- HOME -->
+<div id="sc-home" class="sc">
+<div style="padding:8px 16px 0">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+    <div>
+      <div style="font-size:13px;color:var(--inkSoft);font-family:'Jua',sans-serif" id="home-greeting">안녕! 👋</div>
+      <div style="font-size:20px;color:var(--ink);font-family:'Jua',sans-serif;margin-top:2px">오늘도 영어 한 입 🍪</div>
+    </div>
   </div>
-  <div class="mc" style="display:flex;align-items:center;gap:11px" onclick="go('sc-story')">
-    <div class="mc-ic ic-tl" style="margin-bottom:0;flex-shrink:0">📚</div>
-    <div><div class="mc-n">스토리 이어쓰기</div><div class="mc-d">AI 이야기를 영어로 이어가기</div><span class="mc-badge bd-new">★ 창작</span></div>
+  <div style="display:flex;gap:8px;margin-bottom:14px" id="top-stat-bar"></div>
+  <!-- 마스코트 히어로 -->
+  <div style="border-radius:28px;padding:18px 18px 20px;position:relative;overflow:hidden;background:linear-gradient(160deg,#EAF7FF 0%,#EFEBFF 60%,#FBEFFF 100%);box-shadow:0 12px 30px rgba(79,80,214,.12)">
+    <div style="position:absolute;top:-20px;right:-10px;width:90px;height:90px;border-radius:50%;background:rgba(154,109,243,.12)"></div>
+    <div style="position:absolute;bottom:30px;left:-16px;width:60px;height:60px;border-radius:50%;background:rgba(34,211,238,.12)"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;position:relative">
+      <span class="pill" style="background:#fff;color:var(--purple);box-shadow:0 3px 10px rgba(79,80,214,.10)" id="hero-stage-pill">🌱 새싹 단계</span>
+      <div style="display:flex;align-items:center;gap:5px;background:#fff;padding:5px 12px;border-radius:999px;box-shadow:0 3px 10px rgba(79,80,214,.10)">
+        <span style="font-family:'Jua',sans-serif;font-size:13px;color:var(--indigoDeep)">Lv.</span>
+        <span style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;color:var(--indigo)" id="hero-level">1</span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;margin:6px 0 2px" id="hero-mascot"></div>
+    <div style="text-align:center;font-family:'Jua',sans-serif;font-size:18px;color:var(--ink)" id="hero-name">콩이</div>
+    <div style="margin-top:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center">
+        <span style="font-family:'Jua',sans-serif;font-size:13px;color:var(--indigoDeep)">⭐ 다음 레벨까지</span>
+        <span style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:13.5px;color:var(--inkSoft)" id="hero-xp-lbl">0 / 100 XP</span>
+      </div>
+      <div class="prog-wrap" style="height:14px;background:#E8E5F8">
+        <div class="prog-fill" id="hero-xp-bar" style="background:var(--indigo);height:14px;box-shadow:0 0 10px var(--indigo);width:0%"></div>
+      </div>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:10px">
+      <button class="btn-p" style="background:var(--mint);box-shadow:0 6px 0 rgba(38,176,134,.5)" onclick="waterMascot()">💧 물 주기 +5 XP</button>
+      <button class="btn-p" onclick="go('sc-quiz')">학습 시작 🚀</button>
+    </div>
   </div>
+  <div class="card" style="margin-top:14px" id="streak-card"></div>
+  <div class="card" style="margin-top:14px;cursor:pointer;background:linear-gradient(135deg,#FFFBEF,#FFF6FB)" onclick="openChest()" id="chest-card"></div>
+  <div style="margin-top:18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:0 2px">
+    <span style="font-family:'Jua',sans-serif;font-size:17px;color:var(--ink)">🎯 오늘의 미션</span>
+    <span onclick="go('sc-mission')" style="font-size:13px;color:var(--indigo);font-family:'Jua',sans-serif;cursor:pointer" id="mission-done-lbl">0/3 완료 ›</span>
+  </div>
+  <div class="card" style="padding:6px" id="mission-list"></div>
+  <div style="margin-top:18px;margin-bottom:10px;font-family:'Jua',sans-serif;font-size:17px;color:var(--ink);padding:0 2px">📚 학습 모듈</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" id="module-grid"></div>
+  <div class="card" style="margin-top:14px;cursor:pointer" onclick="go('sc-rank')">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font-size:30px">🏆</div>
+      <div style="flex:1"><div style="font-family:'Jua',sans-serif;font-size:15.5px;color:var(--ink)">친구 랭킹</div><div style="font-size:12px;color:var(--inkSoft)">이번 주 우리 반에서 <b style="color:var(--indigo)">4위</b> · 3위까지 130 XP!</div></div>
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="#A39CC4" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+</div>
 </div>
 
 <!-- QUIZ -->
 <div id="sc-quiz" class="sc">
-  <button class="bk" onclick="go('sc-home')"><i class="ti ti-arrow-left"></i> 홈</button>
-  <div class="pg">단어 퀴즈 📖</div>
-  <div class="ltabs">
-    <div class="ltab on" onclick="setLv(0,this)">🌱 초급</div>
-    <div class="ltab" onclick="setLv(1,this)">🌿 중급</div>
-    <div class="ltab" onclick="setLv(2,this)">🌳 고급</div>
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-home')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">단어 퀴즈 📖</div>
+    <span class="pill" id="quiz-pill">1 / 6</span>
   </div>
-  <div class="wc" id="q-wc">1 / 6</div>
-  <div class="prog"><div class="prog-f" id="q-prog" style="width:16.6%"></div></div>
-  <div class="fc" id="fc" onclick="flipCard()">
-    <span class="fc-tag tag-b" id="fc-tag">형용사</span>
-    <div id="fc-front"><div class="fc-pos" id="fc-pos">adjective</div><div class="fc-word" id="fc-word">happy</div><div class="fc-hint" id="fc-hint">힌트: 기쁨을 느끼는</div></div>
-    <div id="fc-back" style="display:none"><div class="fc-mean" id="fc-mean">행복한, 기쁜</div><div class="fc-ex" id="fc-ex">"She was happy to see her friend."</div><div class="fc-ko" id="fc-ko">그녀는 친구를 보고 행복했다.</div></div>
-  </div>
-  <div class="tts-bar">
-    <button class="tts-btn" id="tb-word" onclick="tts('word')">🔊 단어</button>
-    <button class="tts-btn" id="tb-ex" onclick="tts('ex')">🔊 예문</button>
-    <div class="spd-wrap">
-      <span class="spd-l">속도</span>
-      <button class="spd-btn" onclick="setSpd(0.6,this)">느리게</button>
-      <button class="spd-btn on" onclick="setSpd(0.9,this)">보통</button>
-      <button class="spd-btn" onclick="setSpd(1.2,this)">빠르게</button>
+  <div style="padding:6px 16px 16px">
+    <div class="seg-tabs" id="quiz-level-tabs">
+      <button class="seg-tab on" onclick="setQuizLv('초급',this)">🌱 초급</button>
+      <button class="seg-tab" onclick="setQuizLv('중급',this)">🌿 중급</button>
+      <button class="seg-tab" onclick="setQuizLv('고급',this)">🌳 고급</button>
     </div>
-  </div>
-  <div class="flip-hint" id="flip-h">👆 탭해서 뜻 확인</div>
-  <div class="btn-row" id="q-btns" style="display:none;margin-top:6px">
-    <button class="btn btn-w" onclick="nextCard(false)">😓 몰랐어</button>
-    <button class="btn btn-r" onclick="nextCard(true)">🎉 알았어!</button>
+    <div style="display:flex;gap:5px;margin:14px 0 4px" id="quiz-dots"></div>
+    <div class="fc-wrap" style="margin-top:16px" onclick="flipCard()">
+      <div class="fc-inner" id="fc-inner">
+        <div class="fc-face fc-front">
+          <span class="pill" style="background:#F1EFFD;color:var(--purple)" id="fc-pos-pill">형용사</span>
+          <div style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:46px;color:var(--ink);margin:16px 0 10px" id="fc-word">happy</div>
+          <div style="font-size:14px;color:var(--inkSoft)" id="fc-hint">💡 힌트: 기쁨을 느끼는</div>
+          <div style="display:flex;gap:8px;margin-top:22px">
+            <button class="btn-g" style="font-size:13.5px;padding:8px 14px" onclick="ttsPlay('word');event.stopPropagation()">🔊 단어</button>
+            <button class="btn-g" style="font-size:13.5px;padding:8px 14px" onclick="ttsPlay('ex');event.stopPropagation()">🔊 예문</button>
+          </div>
+          <div style="position:absolute;bottom:18px;font-size:12.5px;color:var(--muted);font-family:'Jua',sans-serif">👆 탭해서 뜻 확인</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div style="font-family:'Fredoka',sans-serif;font-size:30px;opacity:.85" id="fc-word-b">happy</div>
+          <div style="font-family:'Jua',sans-serif;font-size:30px;margin:8px 0 18px" id="fc-meaning">행복한, 기쁜</div>
+          <div style="background:rgba(255,255,255,.16);border-radius:16px;padding:14px 16px">
+            <div style="font-family:'Fredoka',sans-serif;font-size:16px;line-height:1.4" id="fc-ex">"She was happy."</div>
+            <div style="font-size:13px;opacity:.85;margin-top:8px" id="fc-ex-kr">그녀는 행복했다.</div>
+          </div>
+          <div style="position:absolute;bottom:18px;font-size:12.5px;opacity:.8;font-family:'Jua',sans-serif">👆 다시 탭하면 단어로</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;margin-top:10px;padding:8px 10px;background:#F7F5FD;border-radius:10px">
+      <span style="font-size:12px;color:var(--muted)">속도</span>
+      <button class="btn-g" style="font-size:11px;padding:3px 8px;border-radius:12px" onclick="setSpd(0.6,this)">느리게</button>
+      <button class="btn-g" style="font-size:11px;padding:3px 8px;border-radius:12px;border-color:var(--indigo);color:var(--indigo)" onclick="setSpd(0.9,this)">보통</button>
+      <button class="btn-g" style="font-size:11px;padding:3px 8px;border-radius:12px" onclick="setSpd(1.2,this)">빠르게</button>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn-p" style="background:#F0EDFA;box-shadow:0 6px 0 #D9D3EC;color:var(--inkSoft)" onclick="quizAns(false)">😓 몰랐어</button>
+      <button class="btn-p" style="background:var(--mint);box-shadow:0 6px 0 rgba(38,176,134,.5)" onclick="quizAns(true)">🎉 알았어!</button>
+    </div>
   </div>
 </div>
 
 <!-- WRITING -->
 <div id="sc-writing" class="sc">
-  <button class="bk" onclick="go('sc-home');clearW()"><i class="ti ti-arrow-left"></i> 홈</button>
-  <div class="pg">영작 교정 ✍️</div>
-  <div class="hint-box">💡 예시: "Yesterday I go to school by bus and meet my friend."</div>
-  <div class="topic-grid">
-    <div class="topic-btn" onclick="selT(this,'나의 하루')">📅 나의 하루</div>
-    <div class="topic-btn" onclick="selT(this,'좋아하는 음식')">🍕 좋아하는 음식</div>
-    <div class="topic-btn" onclick="selT(this,'방학 계획')">🌴 방학 계획</div>
-    <div class="topic-btn" onclick="selT(this,'자유 주제')">✏️ 자유 주제</div>
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-home')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">영작 교정 ✍️</div>
   </div>
-  <textarea id="w-in" rows="5" placeholder="영어 문장을 써보세요..."></textarea>
-  <button class="btn-p" id="w-btn" onclick="submitW()">AI 교정 받기 🤖</button>
-  <div id="w-res"></div>
+  <div style="padding:0 16px 16px">
+    <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;padding-bottom:4px" id="write-topics"></div>
+    <div style="background:#FFFBEB;border-left:4px solid var(--sun);border-radius:0 10px 10px 0;padding:10px 13px;font-size:13px;color:#92680A;margin-bottom:12px">💡 예시: "Yesterday I go to school by bus and meet my friend."</div>
+    <textarea id="write-input" rows="5" placeholder="영어 문장을 써보세요..." style="margin-bottom:10px"></textarea>
+    <button class="btn-p" style="background:var(--cyan);box-shadow:0 6px 0 rgba(0,176,205,.5)" onclick="submitWriting()" id="write-btn">AI 교정 받기 🤖</button>
+    <div id="write-result" style="margin-top:14px"></div>
+  </div>
 </div>
 
 <!-- CHAT -->
 <div id="sc-chat" class="sc">
-  <button class="bk" onclick="go('sc-home')"><i class="ti ti-arrow-left"></i> 홈</button>
-  <div class="pg">AI 회화 💬</div>
-  <div class="ps" id="chat-lbl">주제를 선택하세요</div>
-  <div id="chat-sel"><div class="topic-grid">
-    <div class="topic-btn" onclick="startChat('My Favorite Hobby','내 취미')">🎮 내 취미</div>
-    <div class="topic-btn" onclick="startChat('My School Life','학교 생활')">🏫 학교 생활</div>
-    <div class="topic-btn" onclick="startChat('Travel Dreams','여행 꿈')">✈️ 여행 꿈</div>
-    <div class="topic-btn" onclick="startChat('My Favorite Food','좋아하는 음식')">🍜 좋아하는 음식</div>
-  </div></div>
-  <div id="chat-area" style="display:none">
-    <div class="chat-wrap" id="chat-msgs"></div>
-    <div class="ci-row">
-      <button class="mic-btn" id="mic-btn" onclick="toggleMic()" title="음성 입력"><i class="ti ti-microphone"></i></button>
-      <textarea id="chat-in" rows="2" placeholder="영어로 말하거나 타이핑하세요..." onkeydown="chatEnter(event)"></textarea>
-      <button class="send" id="chat-send" onclick="sendChat()"><i class="ti ti-send"></i></button>
-    </div>
-    <div class="stt-status" id="stt-status"></div>
-    <button class="btn" style="width:100%;margin-top:6px;font-size:13px" onclick="endChat()">대화 마치고 교정 받기 📝</button>
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-home')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)" id="chat-title">AI 회화 💬</div>
   </div>
-</div>
-
-<!-- MISSION -->
-<div id="sc-mission" class="sc">
-  <button class="bk" onclick="go('sc-home')"><i class="ti ti-arrow-left"></i> 홈</button>
-  <div class="pg">오늘의 미션 🎯</div>
-  <div class="mission-wrap">
-    <div class="mc-n">🌟 오늘의 챌린지</div>
-    <div class="ps" style="margin-top:4px">내 주말 계획을 3문장 이상 영어로 써보세요.</div>
-    <div class="xp-tag">★ +30 XP 보상</div>
-    <textarea id="mis-in" rows="4" placeholder="This weekend, I will..."></textarea>
-    <button class="btn-p" onclick="submitMission()">미션 제출 🚀</button>
-    <div id="mis-res"></div>
+  <div style="padding:0 16px 16px">
+    <div id="chat-topic-sel"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="chat-topics"></div></div>
+    <div id="chat-area" style="display:none">
+      <div style="display:flex;flex-direction:column;gap:12px;min-height:280px;max-height:340px;overflow-y:auto;margin-bottom:12px" id="chat-msgs"></div>
+      <div style="display:flex;gap:8px;align-items:flex-end">
+        <button style="width:42px;height:42px;border-radius:50%;background:var(--bg);border:1.5px solid var(--line);cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center" id="mic-btn" onclick="toggleMic()">🎤</button>
+        <textarea id="chat-input" rows="2" placeholder="영어로 말하거나 타이핑하세요..." style="margin-bottom:0;min-height:42px;max-height:90px" onkeydown="chatEnter(event)"></textarea>
+        <button style="width:42px;height:42px;border-radius:50%;background:var(--indigo);color:#fff;border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center" id="chat-send" onclick="sendChat()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);text-align:center;min-height:18px;margin-top:4px" id="stt-status"></div>
+      <button class="btn-g" style="width:100%;margin-top:8px;font-size:13px" onclick="endChat()">대화 마치고 교정 받기 📝 +25 XP</button>
+    </div>
   </div>
 </div>
 
 <!-- STORY -->
 <div id="sc-story" class="sc">
-  <button class="bk" onclick="go('sc-home')"><i class="ti ti-arrow-left"></i> 홈</button>
-  <div class="pg">스토리 이어쓰기 📚</div>
-  <div class="story-box"><div class="story-by">🤖 AI 시작</div><div id="story-txt">One morning, Mia woke up and found a tiny glowing door under her bed. It was no bigger than her hand, but warm golden light poured through the cracks...</div></div>
-  <div class="hint-box">💡 영어로 이어써 보세요!</div>
-  <textarea id="story-in" rows="5" placeholder="Write what happens next..."></textarea>
-  <button class="btn-p" onclick="submitStory()">이어쓰고 교정 받기 ✨</button>
-  <div id="story-res"></div>
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-home')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">스토리 이어쓰기 📚</div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <div style="background:linear-gradient(135deg,#FFF8F0,#FFF0F8);border:2px solid var(--flame);border-radius:16px;padding:14px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--flame);font-family:'Jua',sans-serif;margin-bottom:5px">🤖 AI 시작</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--ink)" id="story-text">One morning, Mia woke up and found a tiny glowing door under her bed. It was no bigger than her hand, but warm golden light poured through the cracks...</div>
+    </div>
+    <div style="background:#FFF8F0;border-radius:10px;padding:10px 13px;font-size:13px;color:#A0530A;margin-bottom:12px">💡 이 다음 이야기를 영어로 이어 써 보세요!</div>
+    <textarea id="story-input" rows="5" placeholder="Write what happens next..." style="border-color:var(--flame);margin-bottom:10px"></textarea>
+    <button class="btn-p" style="background:var(--flame);box-shadow:0 6px 0 rgba(210,90,30,.5)" onclick="submitStory()">이어쓰고 교정 받기 ✨</button>
+    <div id="story-result" style="margin-top:14px"></div>
+  </div>
 </div>
 
-<!-- ODAM -->
-<div id="sc-odam" class="sc">
-  <button class="bk" onclick="go('sc-home')"><i class="ti ti-arrow-left"></i> 홈</button>
-  <div class="pg">오답노트 📒</div>
-  <div class="stat-grid" id="od-stats"></div>
-  <div class="ltabs"><div class="ltab on" onclick="odTab('word',this)">단어</div><div class="ltab" onclick="odTab('sent',this)">문장</div></div>
-  <div id="od-wl"></div><div id="od-sl" style="display:none"></div>
-  <button class="btn-sm" style="margin-top:8px" onclick="go('sc-quiz');toast('오답 복습 모드!')">🔁 오답 복습</button>
+<!-- MISSION -->
+<div id="sc-mission" class="sc">
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-home')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">오늘의 미션 🎯</div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <div style="background:linear-gradient(135deg,var(--indigo),var(--purple));border-radius:22px;padding:20px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px">
+      <div style="position:absolute;top:-20px;right:-20px;font-size:80px;opacity:.12">🌟</div>
+      <div style="font-family:'Jua',sans-serif;font-size:16px;margin-bottom:4px">🌟 오늘의 챌린지</div>
+      <div style="font-size:13px;opacity:.9;margin-bottom:12px">내 주말 계획을 3문장 이상 영어로 써보세요.</div>
+      <div style="display:flex;gap:8px">
+        <span style="background:rgba(255,255,255,.2);color:#fff;font-family:'Jua',sans-serif;font-size:12px;padding:4px 10px;border-radius:999px">⭐ +30 XP</span>
+        <span style="background:rgba(255,255,255,.2);color:#fff;font-family:'Jua',sans-serif;font-size:12px;padding:4px 10px;border-radius:999px">🎁 보물상자 +1</span>
+      </div>
+    </div>
+    <textarea id="mission-input" rows="4" placeholder="This weekend, I will..." style="margin-bottom:10px"></textarea>
+    <button class="btn-p" onclick="submitMission()">미션 제출 🚀</button>
+    <div id="mission-result" style="margin-top:12px"></div>
+    <div style="margin-top:20px;font-family:'Jua',sans-serif;font-size:16px;color:var(--ink);margin-bottom:10px">다른 미션</div>
+    <div id="other-missions"></div>
+  </div>
+</div>
+
+<!-- RANK -->
+<div id="sc-rank" class="sc">
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-home')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">친구 랭킹 🏆</div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <div class="seg-tabs" style="margin-bottom:16px">
+      <button class="seg-tab on">🏫 우리 반</button>
+      <button class="seg-tab">👫 친구</button>
+      <button class="seg-tab">🇰🇷 전국</button>
+    </div>
+    <div id="rank-podium" class="podium-wrap"></div>
+    <div id="rank-list" style="margin-top:16px"></div>
+    <div style="margin-top:14px;padding:14px;background:linear-gradient(135deg,#EEF0FF,#F4EBFF);border-radius:16px;text-align:center;font-family:'Jua',sans-serif;font-size:14px;color:var(--indigoDeep)">🎯 3위까지 130 XP 남았어요!</div>
+  </div>
+</div>
+
+<!-- BADGE -->
+<div id="sc-badge" class="sc">
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-profile')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">배지 컬렉션 🏅</div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <div style="background:linear-gradient(135deg,var(--indigo),var(--purple));border-radius:18px;padding:16px;color:#fff;margin-bottom:16px;text-align:center">
+      <div id="badge-prog-txt" style="font-family:'Jua',sans-serif;font-size:18px">4 / 8 배지 획득</div>
+      <div style="font-size:13px;opacity:.85;margin-top:2px">더 많은 배지를 모아봐요!</div>
+    </div>
+    <div class="badge-grid" id="badge-grid"></div>
+  </div>
 </div>
 
 <!-- STATS -->
 <div id="sc-stats" class="sc">
-  <button class="bk" onclick="go('sc-home')"><i class="ti ti-arrow-left"></i> 홈</button>
-  <div class="pg">학습 이력 📊</div>
-  <div class="ps">최근 7일 학습 현황</div>
-  <div class="sum-grid" id="sum-cards"></div>
-  <div class="chart-card"><div class="chart-ttl">일별 XP 획득량</div><div class="bar-area" id="xp-chart"></div><div class="legend"><div class="leg"><div class="leg-sq" style="background:var(--primary)"></div>오늘</div><div class="leg"><div class="leg-sq" style="background:#C7CAF5"></div>이전 날</div></div></div>
-  <div class="chart-card"><div class="chart-ttl">일별 학습 활동 횟수</div><div class="bar-area" id="act-chart"></div></div>
-  <div class="chart-card" style="padding-bottom:8px"><div class="chart-ttl" style="margin-bottom:6px">모듈별 누적 활동</div><div id="mod-stats"></div></div>
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-profile')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">학습 이력 📊</div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px" id="stats-summary"></div>
+    <div class="card" style="margin-bottom:12px"><div style="font-family:'Jua',sans-serif;font-size:15px;color:var(--ink);margin-bottom:12px">최근 7일 XP</div><div class="bar-chart-wrap" id="xp-chart"></div></div>
+    <div class="card"><div style="font-family:'Jua',sans-serif;font-size:15px;color:var(--ink);margin-bottom:12px">모듈별 활동</div><div id="mod-bars"></div></div>
+  </div>
 </div>
 
-<!-- LOGIN -->
-<div id="sc-login" class="sc">
-  <div style="text-align:center;padding:40px 0 24px">
-    <div style="font-size:40px;margin-bottom:12px">🚀</div>
-    <div class="pg" style="text-align:center">EngGo</div>
-    <div class="ps" style="text-align:center">AI 영어 학습 앱</div>
+<!-- ODAM -->
+<div id="sc-odam" class="sc">
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-profile')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">오답노트 📒</div>
   </div>
-
-  <div id="login-tab" style="display:flex;gap:8px;margin-bottom:16px">
-    <button class="ltab on" id="tab-login" onclick="switchTab('login')">로그인</button>
-    <button class="ltab" id="tab-signup" onclick="switchTab('signup')">회원가입</button>
+  <div style="padding:0 16px 16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px" id="odam-stats"></div>
+    <div class="seg-tabs" style="margin-bottom:14px">
+      <button class="seg-tab on" onclick="odTab('word',this)">단어</button>
+      <button class="seg-tab" onclick="odTab('sent',this)">문장</button>
+    </div>
+    <div id="odam-wl"></div>
+    <div id="odam-sl" style="display:none"></div>
+    <button class="btn-p" style="background:var(--coral);box-shadow:0 6px 0 rgba(220,80,120,.5);margin-top:14px" onclick="go('sc-quiz')">🔁 오답 복습하기</button>
   </div>
+</div>
 
-  <div id="login-form">
-    <input id="login-email" type="email" placeholder="이메일" style="width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:15px;font-family:'Pretendard',sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:8px">
-    <input id="login-pw" type="password" placeholder="비밀번호" style="width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:15px;font-family:'Pretendard',sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:12px">
-    <button class="btn-p" onclick="doLogin()">로그인</button>
-    <div id="login-msg" style="margin-top:10px;font-size:13px;text-align:center"></div>
-  </div>
-
-  <div id="signup-form" style="display:none">
-    <input id="signup-email" type="email" placeholder="이메일" style="width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:15px;font-family:'Pretendard',sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:8px">
-    <input id="signup-nick" type="text" placeholder="닉네임 (예: 영어왕김철수)" style="width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:15px;font-family:'Pretendard',sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:8px">
-    <input id="signup-pw" type="password" placeholder="비밀번호 (6자 이상)" style="width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:15px;font-family:'Pretendard',sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:12px">
-    <button class="btn-p" onclick="doSignup()">회원가입</button>
-    <div id="signup-msg" style="margin-top:10px;font-size:13px;text-align:center"></div>
-  </div>
-
-  <div style="margin-top:20px;font-size:12px;color:var(--text-hint);text-align:center;line-height:1.6">
-    학습 데이터는 서버에 안전하게 저장돼요<br>어느 기기에서든 이어서 공부할 수 있어요
+<!-- PROFILE -->
+<div id="sc-profile" class="sc">
+  <div style="padding:16px 16px 0">
+    <div style="font-family:'Jua',sans-serif;font-size:21px;color:var(--ink);margin-bottom:14px">프로필 🌱</div>
+    <div class="card" style="text-align:center;padding:22px;margin-bottom:14px">
+      <div style="display:flex;justify-content:center" id="profile-mascot"></div>
+      <div style="font-family:'Jua',sans-serif;font-size:20px;color:var(--ink);margin-top:6px" id="profile-name">콩이</div>
+      <div style="font-size:13px;color:var(--inkSoft);margin-bottom:14px" id="profile-stage">새싹 단계 · Lv.1</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px" id="profile-stats"></div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div onclick="go('sc-badge')" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line);cursor:pointer"><span style="font-size:20px">🏅</span><span style="font-family:'Jua',sans-serif;font-size:15px;color:var(--ink);flex:1">배지 컬렉션</span><svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="#A39CC4" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div onclick="go('sc-odam')" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line);cursor:pointer"><span style="font-size:20px">📒</span><span style="font-family:'Jua',sans-serif;font-size:15px;color:var(--ink);flex:1">오답노트</span><svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="#A39CC4" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div onclick="go('sc-stats')" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line);cursor:pointer"><span style="font-size:20px">📊</span><span style="font-family:'Jua',sans-serif;font-size:15px;color:var(--ink);flex:1">학습 이력</span><svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="#A39CC4" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div onclick="go('sc-rank')" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line);cursor:pointer"><span style="font-size:20px">🏆</span><span style="font-family:'Jua',sans-serif;font-size:15px;color:var(--ink);flex:1">친구 랭킹</span><svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="#A39CC4" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div onclick="go('sc-settings')" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line);cursor:pointer"><span style="font-size:20px">⚙️</span><span style="font-family:'Jua',sans-serif;font-size:15px;color:var(--ink);flex:1">설정 / API 키</span><svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="#A39CC4" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div onclick="doLogout()" style="display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer"><span style="font-size:20px">🚪</span><span style="font-family:'Jua',sans-serif;font-size:15px;color:var(--coral);flex:1">로그아웃</span></div>
+    </div>
   </div>
 </div>
 
 <!-- SETTINGS -->
 <div id="sc-settings" class="sc">
-  <div class="pg">설정 ⚙️</div>
-  <div class="ps">API 키는 내 브라우저에만 저장돼요. GitHub에 올라가지 않아요.</div>
-  <div style="background:var(--amber-bg);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--amber);line-height:1.6">✅ <strong>Gemini API 키</strong>는 자동으로 로드돼요.<br>관리자가 설정한 키를 공유해서 사용합니다. 개인 키가 있다면 아래에 입력해 덮어쓸 수 있어요.</div>
-  <div class="sec">API 키 입력</div>
-  <input id="api-key-input" type="password" placeholder="API 키를 입력하세요..." style="width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:14px;font-family:Pretendard,sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:10px">
-  <button class="btn-p" onclick="saveApiKey()">저장하기 💾</button>
-  <div id="key-status" style="margin-top:10px;font-size:13px"></div>
-  <div class="divider" style="margin:20px 0"></div>
-  <div class="sec">저장된 키 상태</div>
-  <div id="key-saved-info" style="font-size:13px;color:var(--text-sub);background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px"></div>
-  <div class="divider" style="margin:20px 0"></div>
-  <button class="btn" style="width:100%;color:var(--red);border-color:#FECACA" onclick="clearApiKey()">🗑 저장된 키 삭제</button>
-  <div style="margin-top:24px;padding:12px;background:var(--bg2);border-radius:var(--radius-sm);font-size:12px;color:var(--text-sub);line-height:1.7">💡 키는 내 기기 localStorage에만 저장됩니다. 인터넷으로 전송되지 않습니다. GitHub 저장소에 올라가지 않습니다.</div>
-
-  <div class="divider" style="margin:20px 0"></div>
-  <div class="sec">계정</div>
-  <div id="user-info" style="font-size:13px;color:var(--text-sub);background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:10px"></div>
-  <button class="btn" style="width:100%;color:var(--red);border-color:#FECACA" onclick="doLogout()">🚪 로그아웃</button>
+  <div class="sc-hdr">
+    <button class="back-btn" onclick="go('sc-profile')"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="#2B2150" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">설정 ⚙️</div>
+  </div>
+  <div style="padding:0 16px 16px">
+    <div style="background:#FFFBEB;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#92680A;line-height:1.6">✅ <strong>Gemini API 키</strong>는 자동으로 로드돼요. 개인 키가 있다면 아래에 입력해 덮어쓸 수 있어요.</div>
+    <input id="api-key-input" type="password" placeholder="API 키를 입력하세요..." style="margin-bottom:10px">
+    <button class="btn-p" onclick="saveApiKey()">저장하기 💾</button>
+    <div id="key-status" style="margin-top:10px;font-size:13px;min-height:20px"></div>
+    <div style="height:1px;background:var(--line);margin:18px 0"></div>
+    <div id="key-saved-info" style="font-size:13px;color:var(--inkSoft);background:#F7F5FD;border-radius:10px;padding:10px 12px;margin-bottom:14px"></div>
+    <button class="btn-g" style="width:100%;color:var(--coral);border-color:var(--coral)" onclick="clearApiKey()">🗑 저장된 키 삭제</button>
+    <div style="height:1px;background:var(--line);margin:18px 0"></div>
+    <div id="user-info" style="font-size:13px;color:var(--inkSoft);background:#F7F5FD;border-radius:10px;padding:10px 12px"></div>
+  </div>
 </div>
 
+</div><!-- /scroll-area -->
+
 <!-- NAV -->
-<nav class="nav">
-  <button class="ni on" id="ni-home" onclick="go('sc-home')"><i class="ti ti-home"></i>홈</button>
-  <button class="ni" id="ni-quiz" onclick="go('sc-quiz')"><i class="ti ti-cards"></i>단어</button>
-  <button class="ni" id="ni-chat" onclick="go('sc-chat')"><i class="ti ti-message-circle"></i>회화</button>
-  <button class="ni" id="ni-odam" onclick="go('sc-odam')"><i class="ti ti-notebook"></i>오답<div class="ndot" id="od-dot"></div></button>
-  <button class="ni" id="ni-stats" onclick="go('sc-stats')"><i class="ti ti-chart-bar"></i>이력</button>
-  <button class="ni" id="ni-settings" onclick="go('sc-settings')"><i class="ti ti-settings"></i>설정</button>
+<nav class="nav" id="main-nav">
+  <button class="ni on" id="ni-home" onclick="go('sc-home')"><div class="ni-bubble">🏠</div><span>홈</span></button>
+  <button class="ni" id="ni-quiz" onclick="go('sc-quiz')"><div class="ni-bubble">📖</div><span>단어</span></button>
+  <button class="ni" id="ni-mission" onclick="go('sc-mission')"><div class="ni-bubble">🎯</div><span>미션</span></button>
+  <button class="ni" id="ni-rank" onclick="go('sc-rank')"><div class="ni-bubble">🏆</div><span>랭킹</span></button>
+  <button class="ni" id="ni-profile" onclick="go('sc-profile')"><div class="ni-bubble">🌱</div><span>프로필</span></button>
 </nav>
 </div>
 
+<div id="toast"></div>
+<div id="confetti-wrap" style="position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:60"></div>
+<div id="overlay" onclick="closeOv()">
+  <div class="ov-card" onclick="event.stopPropagation()">
+    <div class="ov-icon" id="ov-icon">⭐</div>
+    <div style="margin-top:52px;font-family:'Jua',sans-serif;font-size:24px;color:var(--ink)" id="ov-title"></div>
+    <div style="margin-top:6px;font-size:14.5px;color:var(--inkSoft);line-height:1.5" id="ov-sub"></div>
+    <div style="display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap" id="ov-rewards"></div>
+    <div style="margin-top:22px"><button class="btn-p" onclick="closeOv()">좋아! 🎉</button></div>
+  </div>
+</div>
 <script>
-// ── DATA LAYER — Supabase 버전 ──
+// ══ 마스코트 SVG (mascot.jsx 이식) ══
+const STAGES=[
+  {name:'새싹',sub:'씨앗에서 막 깨어난',leaves:1,flower:false,fruit:0,trunk:0,bs:.72},
+  {name:'떡잎',sub:'쑥쑥 자라는 중',leaves:2,flower:false,fruit:0,trunk:0,bs:.82},
+  {name:'꽃봉오리',sub:'곧 꽃이 필 것 같아',leaves:3,flower:true,fruit:0,trunk:.4,bs:.9},
+  {name:'묘목',sub:'제법 단단해졌어',leaves:4,flower:true,fruit:1,trunk:.7,bs:.97},
+  {name:'큰나무',sub:'숲을 이룰 거야',leaves:5,flower:true,fruit:3,trunk:1,bs:1.05},
+];
+function growthName(s){return STAGES[Math.max(0,Math.min(4,s-1))];}
+
+function mascotSVG(stage=1,size=180,mood='happy',float=true){
+  const s=STAGES[Math.max(0,Math.min(4,stage-1))];
+  const id='m'+Math.random().toString(36).slice(2,7);
+  const bs=s.bs;
+  let mouth=`<path d="M88 138 Q100 150 112 138" stroke="#7A3A52" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+  if(mood==='excited')mouth=`<path d="M86 138 Q100 158 114 138 Q100 150 86 138 Z" fill="#7A3A52"/>`;
+  const eye=cx=>`<g><ellipse cx="${cx}" cy="118" rx="9.5" ry="11" fill="#2B2150"/><circle cx="${cx+3}" cy="114" r="3.2" fill="#fff"/><circle cx="${cx-3}" cy="122" r="1.6" fill="#fff" opacity=".8"/></g>`;
+  let leavesHtml='';
+  for(let i=0;i<s.leaves;i++){
+    const t=s.leaves===1?0:(i/(s.leaves-1))-.5;
+    const rot=t*42+(i%2===0?-2:2);const lx=100+t*26;const ly=64-Math.abs(t)*8;
+    const sc=.9+.2*(1-Math.abs(t))+stage*.04;
+    leavesHtml+=`<g transform="translate(${lx} ${ly}) rotate(${rot}) scale(${sc})"><path d="M0 0 C 14 -6 24 -22 18 -40 C 4 -34 -8 -20 0 0 Z" fill="#56C66B"/><path d="M2 -4 C 7 -16 12 -26 15 -34" stroke="#2E9A4A" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".55"/></g>`;
+  }
+  const flower=s.flower?`<g transform="translate(100 56)">${[0,72,144,216,288].map(a=>`<ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#FFA6D4" transform="rotate(${a})"/>`).join('')}<circle cx="0" cy="0" r="5" fill="#FFD24C"/></g>`:'';
+  const trunk=s.trunk>0?`<rect x="96" y="150" width="8" height="${34*s.trunk}" rx="4" fill="url(#${id}-t)"/>`:'';
+  const fruits=Array.from({length:s.fruit}).map((_,i)=>{const p=[[70,120],[132,116],[100,104]][i]||[100,110];return`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="#FF6B8B" stroke="#E84E70" stroke-width="1.5"/>`;}).join('');
+  const anim=float?'animation:mascotFloat 3.2s ease-in-out infinite':'';
+  return `<div style="width:${size}px;height:${size}px;display:inline-block;${anim}"><svg viewBox="0 0 200 210" width="${size}" height="${size}" style="overflow:visible"><defs><radialGradient id="${id}-b" cx="42%" cy="34%" r="72%"><stop offset="0%" stop-color="#A8F0B4"/><stop offset="55%" stop-color="#6FD981"/><stop offset="100%" stop-color="#46BC60"/></radialGradient><linearGradient id="${id}-t" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C98A5A"/><stop offset="100%" stop-color="#A56A3E"/></linearGradient></defs><ellipse cx="100" cy="192" rx="${46*bs}" ry="9" fill="#2B2150" opacity=".12"/>${trunk}<path d="M100 96 C 98 84 100 74 100 64" stroke="#3FA957" stroke-width="6" fill="none" stroke-linecap="round"/>${leavesHtml}${flower}<g transform="translate(100 132) scale(${bs}) translate(-100 -132)"><path d="M100 70 C 60 70 46 104 50 132 C 53 160 74 178 100 178 C 126 178 147 160 150 132 C 154 104 140 70 100 70 Z" fill="url(#${id}-b)" stroke="#39A552" stroke-width="3"/><ellipse cx="100" cy="138" rx="34" ry="30" fill="#EBFFE9" opacity=".55"/><ellipse cx="74" cy="132" rx="8" ry="6" fill="#FF9DBE" opacity=".85"/><ellipse cx="126" cy="132" rx="8" ry="6" fill="#FF9DBE" opacity=".85"/>${eye(84)}${eye(116)}${mouth}</g>${fruits}</svg></div>`;
+}
+
+// ══ 데이터 ══
+const WORD_LEVELS={
+  '초급':[
+    {word:'happy',pos:'adjective',posKr:'형용사',meaning:'행복한, 기쁜',hint:'기쁨을 느끼는',ex:'She was happy to see her friend.',exKr:'그녀는 친구를 보고 행복했다.'},
+    {word:'brave',pos:'adjective',posKr:'형용사',meaning:'용감한',hint:'두려움 없이 맞서는',ex:'The brave boy helped the puppy.',exKr:'그 용감한 소년이 강아지를 도왔다.'},
+    {word:'travel',pos:'verb',posKr:'동사',meaning:'여행하다',hint:'먼 곳으로 떠나는',ex:'I want to travel around the world.',exKr:'나는 세계를 여행하고 싶다.'},
+    {word:'forest',pos:'noun',posKr:'명사',meaning:'숲',hint:'나무가 가득한 곳',ex:'A fox lives deep in the forest.',exKr:'여우 한 마리가 숲 깊은 곳에 산다.'},
+    {word:'gather',pos:'verb',posKr:'동사',meaning:'모으다, 모이다',hint:'여기저기서 한데로',ex:'We gather leaves in autumn.',exKr:'우리는 가을에 낙엽을 모은다.'},
+    {word:'quiet',pos:'adjective',posKr:'형용사',meaning:'조용한',hint:'소리가 거의 없는',ex:'The library was very quiet.',exKr:'도서관은 매우 조용했다.'},
+  ],
+  '중급':[
+    {word:'curious',pos:'adjective',posKr:'형용사',meaning:'호기심 많은',hint:'알고 싶어 하는',ex:'Curious kids ask many questions.',exKr:'호기심 많은 아이들은 질문이 많다.'},
+    {word:'achieve',pos:'verb',posKr:'동사',meaning:'이루다, 달성하다',hint:'노력으로 얻는',ex:'You can achieve your dream.',exKr:'너는 네 꿈을 이룰 수 있어.'},
+    {word:'imagine',pos:'verb',posKr:'동사',meaning:'상상하다',hint:'머릿속에 그리는',ex:'Imagine a world without homework.',exKr:'숙제 없는 세상을 상상해 봐.'},
+    {word:'courage',pos:'noun',posKr:'명사',meaning:'용기',hint:'두려움을 이기는 힘',ex:'It takes courage to say sorry.',exKr:'미안하다고 말하는 데는 용기가 필요하다.'},
+  ],
+  '고급':[
+    {word:'perspective',pos:'noun',posKr:'명사',meaning:'관점, 시각',hint:'바라보는 방식',ex:'Try to see it from her perspective.',exKr:'그녀의 관점에서 그것을 봐 봐.'},
+    {word:'resilient',pos:'adjective',posKr:'형용사',meaning:'회복력 있는',hint:'다시 일어서는',ex:'Resilient people never give up.',exKr:'회복력 있는 사람은 결코 포기하지 않는다.'},
+    {word:'genuine',pos:'adjective',posKr:'형용사',meaning:'진실한, 진짜의',hint:'꾸밈없는',ex:'Her smile was genuine and warm.',exKr:'그녀의 미소는 진실하고 따뜻했다.'},
+  ]
+};
+const MODULES=[
+  {id:'sc-writing',icon:'✍️',title:'영작 교정',sub:'AI가 교정해줘요',tag:'🤖 AI',color:'#22C3DE'},
+  {id:'sc-chat',icon:'💬',title:'AI 회화',sub:'대화 연습',tag:'🤖 AI',color:'#9B6DF3'},
+  {id:'sc-story',icon:'📚',title:'스토리 이어쓰기',sub:'AI 이야기를 영어로',tag:'★ 창작',color:'#FF8A4C'},
+  {id:'sc-quiz',icon:'📖',title:'단어 퀴즈',sub:'레벨별 플래시카드',tag:'⚡ 3단계',color:'#6A6CF0'},
+];
+const MISSIONS=[
+  {id:1,title:'단어 5개 익히기',desc:'플래시카드로 새 단어 5개',xp:20,goal:5,done:5,icon:'📖'},
+  {id:2,title:'주말 계획 영작하기',desc:'내 주말 계획을 3문장 이상 영어로',xp:30,goal:1,done:0,icon:'✍️'},
+  {id:3,title:'AI와 3턴 대화하기',desc:'좋아하는 음식에 대해 이야기해요',xp:25,goal:3,done:1,icon:'💬'},
+];
+const BADGES=[
+  {name:'첫 걸음',desc:'첫 학습 완료',icon:'🌱',unlocked:true,rarity:'브론즈',rc:'#C98A5A'},
+  {name:'일주일 개근',desc:'7일 연속 학습',icon:'🔥',unlocked:true,rarity:'실버',rc:'#9AA7B8'},
+  {name:'단어 사냥꾼',desc:'단어 50개 학습',icon:'📖',unlocked:true,rarity:'실버',rc:'#9AA7B8'},
+  {name:'꼬마 작가',desc:'영작 10편 완성',icon:'✍️',unlocked:true,rarity:'골드',rc:'#FFC93C'},
+  {name:'수다쟁이',desc:'AI와 50턴 대화',icon:'💬',unlocked:false,rarity:'골드',rc:'#FFC93C',prog:.6},
+  {name:'불꽃의 한 달',desc:'30일 연속 학습',icon:'🌟',unlocked:false,rarity:'골드',rc:'#FFC93C',prog:.4},
+  {name:'만점왕',desc:'퀴즈 10회 만점',icon:'🏆',unlocked:false,rarity:'플래티넘',rc:'#22C3DE',prog:.3},
+  {name:'큰나무',desc:'마스코트 최종 성장',icon:'🌳',unlocked:false,rarity:'다이아',rc:'#9B6DF3',prog:.45},
+];
+const LEADERBOARD=[
+  {rank:1,name:'서연',xp:3120,avatar:'🦊',color:'#FF8A4C'},
+  {rank:2,name:'하준',xp:2870,avatar:'🐰',color:'#9B6DF3'},
+  {rank:3,name:'지우',xp:2610,avatar:'🐯',color:'#FFC93C'},
+  {rank:4,name:'민준',xp:2480,avatar:'🌱',color:'#34D9A4',isUser:true},
+  {rank:5,name:'도윤',xp:2300,avatar:'🐻',color:'#C98A5A'},
+  {rank:6,name:'수아',xp:2150,avatar:'🐱',color:'#22B8CF'},
+  {rank:7,name:'예준',xp:1980,avatar:'🐧',color:'#6A6CF0'},
+  {rank:8,name:'하은',xp:1740,avatar:'🐹',color:'#FF6FA5'},
+];
+const CONVO_TOPICS=[
+  {emoji:'🎮',label:'내 취미',en:'My Favorite Hobby'},
+  {emoji:'🏫',label:'학교 생활',en:'My School Life'},
+  {emoji:'✈️',label:'여행 꿈',en:'Travel Dreams'},
+  {emoji:'🍜',label:'좋아하는 음식',en:'My Favorite Food'},
+];
+const WRITE_TOPICS=[
+  {emoji:'📅',label:'나의 하루'},{emoji:'🍕',label:'좋아하는 음식'},
+  {emoji:'🌴',label:'방학 계획'},{emoji:'✏️',label:'자유 주제'},
+];
+const STATS_DATA={
+  days:['월','화','수','목','금','토','일'],
+  xp:[40,65,30,80,55,90,70],
+  modules:[
+    {label:'단어',value:142,color:'#6A6CF0'},{label:'영작',value:58,color:'#22C3DE'},
+    {label:'회화',value:73,color:'#9B6DF3'},{label:'스토리',value:21,color:'#FF8A4C'},
+  ]
+};
+
+// ══ 유저 상태 ══
+const U={name:'학습자',nickname:'콩이',stage:1,level:1,xp:0,xpToNext:100,coins:0,gems:0,streak:1,freezeOwned:0,chestProgress:0};
+
+// ══ Supabase ══
 const SB_URL='https://bnuwwjpvkkpiewrlduws.supabase.co';
 const SB_KEY='sb_publishable_bWX0a-p0B2Zo8TMl8yD9fA_gfHnWWyA';
-
 async function sbFetch(path,method='GET',body=null){
   const opts={method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'}};
   if(body)opts.body=JSON.stringify(body);
   const r=await fetch(SB_URL+'/rest/v1/'+path,opts);
-  if(!r.ok){const e=await r.text();console.error('[SB]',e);return null;}
-  return r.status===204?null:r.json();
+  if(!r.ok)return null;return r.status===204?null:r.json();
 }
-
 function getUID(){return localStorage.getItem('enggo_uid')||null;}
 function setUID(v){localStorage.setItem('enggo_uid',v);}
-function getUToken(){return localStorage.getItem('enggo_token')||null;}
-function setUToken(v){localStorage.setItem('enggo_token',v);}
+function setUTok(v){localStorage.setItem('enggo_token',v);}
+function getUTok(){return localStorage.getItem('enggo_token')||null;}
 
+// ══ DB 레이어 ══
+function td(){return new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\.\s?/g,'-').replace(/-$/,'')}
+function ago(n){const d=new Date();d.setDate(d.getDate()-n);return d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\.\s?/g,'-').replace(/-$/,'')}
+function dayLbl(n){if(n===0)return'오늘';const d=new Date();d.setDate(d.getDate()-n);return['일','월','화','수','목','금','토'][d.getDay()]}
 const DB={
-  g(k){try{return JSON.parse(localStorage.getItem('eg3_'+k))}catch{return null}},
-  s(k,v){localStorage.setItem('eg3_'+k,JSON.stringify(v))},
-  xp(){return this.g('xp')||0;},
-  setXP(v){this.s('xp',v);},
-  ww(){return this.g('ww')||[];},
-  addWW(w){
-    const a=this.ww();
-    const i=a.findIndex(x=>x.word===w.word);
-    if(i<0)a.push({...w,cnt:1});else a[i].cnt++;
-    this.s('ww',a);
-    const uid=getUID();
-    if(uid){
-      const cnt=i<0?1:a[i].cnt;
-      sbFetch('wrong_notes','POST',{user_id:uid,type:'word',content:w,cnt}).catch(()=>{});
-    }
-  },
-  ws(){return this.g('ws')||[];},
-  addWS(s){
-    const a=this.ws();
-    a.unshift({...s,date:td()});
-    if(a.length>30)a.pop();
-    this.s('ws',a);
-    const uid=getUID();
-    if(uid)sbFetch('wrong_notes','POST',{user_id:uid,type:'sent',content:s,cnt:1}).catch(()=>{});
-  },
-  log(){return this.g('log')||{};},
-  addLog(mod,xp){
-    const l=this.log(),d=td();
-    if(!l[d])l[d]={xp:0,acts:0,quiz:0,writing:0,chat:0,mission:0,story:0};
-    l[d].xp+=xp;l[d].acts++;if(l[d][mod]!==undefined)l[d][mod]++;
-    const keys=Object.keys(l).sort().slice(-30);
-    const t={};keys.forEach(k=>t[k]=l[k]);this.s('log',t);
-    const uid=getUID();
-    if(uid)sbFetch('xp_log','POST',{user_id:uid,module:mod,xp,acts:1,log_date:d,detail:l[d]}).catch(()=>{});
-  },
-  async syncFromServer(){
+  g(k){try{return JSON.parse(localStorage.getItem('eg4_'+k))}catch{return null}},
+  s(k,v){localStorage.setItem('eg4_'+k,JSON.stringify(v))},
+  xp(){return this.g('xp')||0},setXP(v){this.s('xp',v)},
+  ww(){return this.g('ww')||[]},
+  addWW(w){const a=this.ww();const i=a.findIndex(x=>x.word===w.word);if(i<0)a.push({...w,cnt:1});else a[i].cnt++;this.s('ww',a);const uid=getUID();if(uid)sbFetch('wrong_notes','POST',{user_id:uid,type:'word',content:w,cnt:i<0?1:a[i].cnt}).catch(()=>{});},
+  ws(){return this.g('ws')||[]},
+  addWS(s){const a=this.ws();a.unshift({...s,date:td()});if(a.length>30)a.pop();this.s('ws',a);const uid=getUID();if(uid)sbFetch('wrong_notes','POST',{user_id:uid,type:'sent',content:s,cnt:1}).catch(()=>{});},
+  log(){return this.g('log')||{}},
+  addLog(mod,xp){const l=this.log(),d=td();if(!l[d])l[d]={xp:0,acts:0,quiz:0,writing:0,chat:0,mission:0,story:0};l[d].xp+=xp;l[d].acts++;if(l[d][mod]!==undefined)l[d][mod]++;const keys=Object.keys(l).sort().slice(-30);const t={};keys.forEach(k=>t[k]=l[k]);this.s('log',t);const uid=getUID();if(uid)sbFetch('xp_log','POST',{user_id:uid,module:mod,xp,acts:1,log_date:d}).catch(()=>{});},
+  async sync(){
     const uid=getUID();if(!uid)return;
     try{
-      const logs=await sbFetch('xp_log?user_id=eq.'+uid+'&select=xp,acts,module,log_date');
-      if(logs&&logs.length){
-        const totalXP=logs.reduce((a,l)=>a+(l.xp||0),0);
-        this.s('xp',totalXP);
-        const logMap={};
-        logs.forEach(l=>{
-          const d=l.log_date;
-          if(!logMap[d])logMap[d]={xp:0,acts:0,quiz:0,writing:0,chat:0,mission:0,story:0};
-          logMap[d].xp+=(l.xp||0);
-          logMap[d].acts+=(l.acts||0);
-          if(l.module&&logMap[d][l.module]!==undefined)logMap[d][l.module]++;
-        });
-        this.s('log',logMap);
-      }
+      const logs=await sbFetch('xp_log?user_id=eq.'+uid+'&select=xp,module,log_date');
+      if(logs&&logs.length){this.s('xp',logs.reduce((a,l)=>a+(l.xp||0),0));}
       const ww=await sbFetch('wrong_notes?user_id=eq.'+uid+'&type=eq.word&select=content,cnt');
       if(ww&&ww.length)this.s('ww',ww.map(w=>({...w.content,cnt:w.cnt})));
       const ws=await sbFetch('wrong_notes?user_id=eq.'+uid+'&type=eq.sent&select=content&order=created_at.desc&limit=30');
       if(ws&&ws.length)this.s('ws',ws.map(w=>w.content));
-      updateUI();
-      toast('☁️ 데이터 동기화 완료!');
-    }catch(e){console.error('[sync]',e);}
+      updateHero();showToast('☁️ 동기화 완료!');
+    }catch(e){}
   }
 };
-function td(){return new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\.\s?/g,'-').replace(/-$/,'')}
-function ago(n){const d=new Date();d.setDate(d.getDate()-n);return d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\.\s?/g,'-').replace(/-$/,'')}
-function dayLbl(n){if(n===0)return'오늘';const d=new Date();d.setDate(d.getDate()-n);return['일','월','화','수','목','금','토'][d.getDay()]}
 
-const LVS=[{n:'새싹',e:'🌱',mx:100},{n:'새내기',e:'🌿',mx:250},{n:'실력자',e:'🌳',mx:500},{n:'고수',e:'🦅',mx:800},{n:'영어왕',e:'👑',mx:1200},{n:'마스터',e:'🏆',mx:99999}];
-function getLv(xp){for(let i=LVS.length-1;i>=0;i--){const mn=i>0?LVS[i-1].mx:0;if(xp>=mn)return{...LVS[i],num:i+1,pct:Math.min(100,Math.round((xp-mn)/(LVS[i].mx-mn)*100))}}return{...LVS[0],num:1,pct:0}}
-function updateUI(){
-  const xp=DB.xp(),lv=getLv(xp);
-  document.getElementById('hd-xp').textContent=xp;
-  document.getElementById('hd-lvl').textContent='Lv.'+lv.num+' '+lv.n;
-  document.getElementById('h-lnum').textContent=lv.num;
-  document.getElementById('h-lname').textContent=lv.e+' '+lv.n+' 단계';
-  document.getElementById('h-lbar').style.width=lv.pct+'%';
-  document.getElementById('h-lxp').textContent=xp+' / '+lv.mx+' XP';
-  document.getElementById('streak-n').textContent=DB.g('streak')||1;
-  document.getElementById('od-dot').classList.toggle('show',DB.ww().length>0||DB.ws().length>0);
+// ══ Gemini 키 ══
+let _key=localStorage.getItem('enggo_apikey')||'';
+async function loadKey(){
+  try{const r=await fetch(SB_URL+'/rest/v1/app_config?key=eq.gemini_api_key&select=value',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});const d=await r.json();if(d&&d.length&&d[0].value){_key=d[0].value;localStorage.setItem('enggo_apikey',_key);}}catch(e){}return _key;
 }
-function addXP(n,mod){
-  const old=DB.xp(),nw=old+n;DB.setXP(nw);DB.addLog(mod,n);
-  const lv1=getLv(old),lv2=getLv(nw);updateUI();
-  toast('+'+n+' XP!');
-  if(lv2.num>lv1.num)setTimeout(()=>toast('🎉 레벨업! '+lv2.e+' '+lv2.n+'!'),900);
-}
+function getKey(){return _key||localStorage.getItem('enggo_apikey')||'';}
+function setKey(k){_key=k.trim();localStorage.setItem('enggo_apikey',k.trim());}
 
-// go 함수는 아래 설정 섹션에서 정의됩니다
-
-let tt;
-function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2400)}
-
-let spd=0.9;
-function setSpd(v,el){spd=v;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on')}
-function tts(type,text){
-  if(!window.speechSynthesis){toast('TTS 미지원 브라우저');return}
-  window.speechSynthesis.cancel();
-  let t=text||'';
-  if(!text){
-    if(type==='word')t=document.getElementById('fc-word').textContent;
-    else if(type==='ex')t=document.getElementById('fc-ex').textContent.replace(/"/g,'');
+// ══ XP / 레벨업 ══
+function gainXP(n,mod=''){
+  let xp=DB.xp()+n,lvl=U.level,xtn=U.xpToNext,stage=U.stage;
+  U.coins+=Math.round(n*.5);U.chestProgress=Math.min(5,(U.chestProgress||0)+1);
+  if(mod)DB.addLog(mod,n);DB.setXP(xp);
+  let leveled=false,grew=false;
+  while(xp>=xtn){xp-=xtn;lvl++;xtn=Math.round(xtn*1.15);leveled=true;if(lvl%3===0&&stage<5){stage++;grew=true;}}
+  U.xp=xp;U.xpToNext=xtn;U.level=lvl;U.stage=stage;
+  updateHero();
+  if(leveled){
+    showToast(grew?'🌿 콩이가 자랐어요!':'⭐ 레벨 UP! Lv.'+lvl);fireConfetti();
+    setTimeout(()=>{
+      if(grew){const s=growthName(stage);showOv(mascotSVG(stage,80,'excited',false),`콩이가 자랐어요! 🌿`,`이제 '${s.name}' 단계예요!`,[{icon:'⭐',label:`Lv.${lvl}`},{icon:'🪙',label:'코인 +100'}],'#34D9A4');}
+      else showOv('⭐',`레벨 UP! Lv.${lvl}`,'꾸준함이 콩이를 키워요!',[{icon:'🪙',label:'코인 +100'},{icon:'💎',label:'젬 +2'}],'#6A6CF0');
+    },350);
+    U.coins+=100;
   }
-  if(!t)return;
-  const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=spd;
-  const btn=type==='word'?document.getElementById('tb-word'):type==='ex'?document.getElementById('tb-ex'):null;
-  if(btn){btn.classList.add('active');u.onend=()=>btn.classList.remove('active')}
-  window.speechSynthesis.speak(u);
-}
-function ttsBt(txt){
-  const s=(txt||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").substring(0,150);
-  return `<button class="tts-btn sm" onclick="tts('','${s}')">🔊</button>`;
 }
 
-const WDS=[
-  {l:0,word:'happy',pos:'adjective',tag:'형용사',hint:'기쁨을 느끼는',meaning:'행복한, 기쁜',ex:'She was happy to see her friend.',ko:'그녀는 친구를 보고 행복했다.'},
-  {l:0,word:'beautiful',pos:'adjective',tag:'형용사',hint:'보기 좋은',meaning:'아름다운',ex:'The sunset was beautiful.',ko:'노을이 아름다웠다.'},
-  {l:0,word:'delicious',pos:'adjective',tag:'형용사',hint:'맛있는',meaning:'맛있는',ex:'This pizza is delicious!',ko:'이 피자는 맛있어!'},
-  {l:0,word:'important',pos:'adjective',tag:'형용사',hint:'중요한',meaning:'중요한',ex:'It is important to study.',ko:'공부하는 것이 중요하다.'},
-  {l:0,word:'exciting',pos:'adjective',tag:'형용사',hint:'신나는',meaning:'신나는',ex:'The game was exciting.',ko:'그 게임은 신났다.'},
-  {l:0,word:'friendly',pos:'adjective',tag:'형용사',hint:'친절한',meaning:'친절한',ex:'My teacher is friendly.',ko:'우리 선생님은 친절하다.'},
-  {l:1,word:'abundant',pos:'adjective',tag:'형용사',hint:'많고 풍부한',meaning:'풍부한',ex:'Fish are abundant in this river.',ko:'이 강에는 물고기가 풍부하다.'},
-  {l:1,word:'curious',pos:'adjective',tag:'형용사',hint:'알고 싶어 하는',meaning:'호기심 많은',ex:'She was curious about the new student.',ko:'그녀는 새 학생이 궁금했다.'},
-  {l:1,word:'enormous',pos:'adjective',tag:'형용사',hint:'매우 큰',meaning:'거대한',ex:'The elephant was enormous.',ko:'그 코끼리는 거대했다.'},
-  {l:1,word:'grateful',pos:'adjective',tag:'형용사',hint:'고마움을 느끼는',meaning:'감사하는',ex:'I am grateful for your help.',ko:'도움에 감사합니다.'},
-  {l:1,word:'determine',pos:'verb',tag:'동사',hint:'결정하다',meaning:'결심하다',ex:'He determined to study harder.',ko:'그는 더 열심히 공부하기로 결심했다.'},
-  {l:1,word:'brilliant',pos:'adjective',tag:'형용사',hint:'훌륭한',meaning:'훌륭한, 빛나는',ex:'She had a brilliant idea.',ko:'그녀는 훌륭한 아이디어가 있었다.'},
-  {l:2,word:'persevere',pos:'verb',tag:'동사',hint:'어려움을 이겨내다',meaning:'인내하다',ex:'She persevered through all difficulties.',ko:'그녀는 모든 어려움을 견뎌냈다.'},
-  {l:2,word:'eloquent',pos:'adjective',tag:'형용사',hint:'유창한',meaning:'유창한',ex:'He gave an eloquent speech.',ko:'그는 유창한 연설을 했다.'},
-  {l:2,word:'ambiguous',pos:'adjective',tag:'형용사',hint:'불분명한',meaning:'애매한',ex:'His answer was ambiguous.',ko:'그의 대답은 애매했다.'},
-  {l:2,word:'inevitable',pos:'adjective',tag:'형용사',hint:'피할 수 없는',meaning:'불가피한',ex:'Change is inevitable.',ko:'변화는 불가피하다.'},
-  {l:2,word:'meticulous',pos:'adjective',tag:'형용사',hint:'꼼꼼한',meaning:'꼼꼼한',ex:'She is meticulous about her work.',ko:'그녀는 일에 꼼꼼하다.'},
-  {l:2,word:'contemplate',pos:'verb',tag:'동사',hint:'깊이 생각하다',meaning:'숙고하다',ex:'He contemplated the problem.',ko:'그는 문제를 깊이 생각했다.'}
-];
-let curLv=0,ci=0,flipped=false;
-const TC=['tag-b','tag-g','tag-r'];
-function fw(){return WDS.filter(w=>w.l===curLv)}
-function setLv(lv,el){curLv=lv;ci=0;document.querySelectorAll('#sc-quiz .ltab').forEach(t=>t.classList.remove('on'));el.classList.add('on');loadCard(0)}
-function loadCard(i){
-  const ws=fw();if(!ws.length)return;
-  const w=ws[i%ws.length];
-  document.getElementById('fc-word').textContent=w.word;
-  document.getElementById('fc-pos').textContent=w.pos;
-  document.getElementById('fc-tag').className='fc-tag '+TC[curLv];
-  document.getElementById('fc-tag').textContent=w.tag;
-  document.getElementById('fc-hint').textContent='힌트: '+w.hint;
-  document.getElementById('fc-mean').textContent=w.meaning;
-  document.getElementById('fc-ex').textContent='"'+w.ex+'"';
-  document.getElementById('fc-ko').textContent=w.ko;
-  document.getElementById('fc-front').style.display='block';
-  document.getElementById('fc-back').style.display='none';
-  document.getElementById('flip-h').textContent='👆 탭해서 뜻 확인';
-  document.getElementById('q-btns').style.display='none';
-  const n=ws.length;
-  document.getElementById('q-wc').textContent=(i%n+1)+' / '+n;
-  document.getElementById('q-prog').style.width=((i%n+1)/n*100)+'%';
-  flipped=false;
-}
-function flipCard(){
-  if(flipped)return;
-  document.getElementById('fc-front').style.display='none';
-  document.getElementById('fc-back').style.display='block';
-  document.getElementById('flip-h').textContent='알고 있었나요?';
-  document.getElementById('q-btns').style.display='flex';
-  flipped=true;tts('word');
-}
-function nextCard(knew){
-  const w=fw()[ci%fw().length];
-  if(!knew){DB.addWW(w);updateUI();}else addXP(5,'quiz');
-  ci++;loadCard(ci);
+// ══ 라우팅 ══
+const NM={'sc-home':'ni-home','sc-quiz':'ni-quiz','sc-writing':'ni-home','sc-chat':'ni-home','sc-story':'ni-home','sc-mission':'ni-mission','sc-rank':'ni-rank','sc-badge':'ni-profile','sc-stats':'ni-profile','sc-odam':'ni-profile','sc-profile':'ni-profile','sc-settings':'ni-profile','sc-login':null};
+function go(id){
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const ni=NM[id];if(ni)document.getElementById(ni).classList.add('on');
+  document.getElementById('main-nav').style.display=id==='sc-login'?'none':'flex';
+  if(id==='sc-home')renderHome();
+  if(id==='sc-rank')renderRank();
+  if(id==='sc-badge')renderBadge();
+  if(id==='sc-stats')renderStats();
+  if(id==='sc-odam')renderOdam();
+  if(id==='sc-profile')renderProfile();
+  if(id==='sc-settings'){renderKeyInfo();renderUserInfo();}
+  document.getElementById('scroll-area').scrollTop=0;
 }
 
-let wTopic='';
-function selT(el,t){document.querySelectorAll('#sc-writing .topic-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');wTopic=t}
-function clearW(){document.getElementById('w-in').value='';document.getElementById('w-res').innerHTML='';document.querySelectorAll('#sc-writing .topic-btn').forEach(b=>b.classList.remove('on'));wTopic=''}
-async function submitW(){
-  const txt=document.getElementById('w-in').value.trim();if(!txt){toast('문장을 입력해 주세요!');return}
-  const btn=document.getElementById('w-btn');btn.disabled=true;btn.textContent='교정 중...';
-  document.getElementById('w-res').innerHTML=`<div class="res load"><span class="spinner"></span>AI가 교정 중...</div>`;
-  try{
-    const r=await apiCall(`You are a friendly English tutor for Korean middle school students.${wTopic?' Topic: '+wTopic+'.':''}\nStudent wrote: "${txt}"\nRespond ONLY with valid JSON (no markdown):\n{"original":"...","corrected":"...","errors":[{"wrong":"...","fix":"...","reason":"Korean under 15 words"}],"better_expressions":[{"sentence":"complete natural English sentence","korean":"Korean translation"}],"praise":"Korean 1 sentence"}\nIf no errors, errors=[], corrected=original. better_expressions must be 2 complete sentences rewriting the original more naturally.`,800);
-    const d=JSON.parse(r.replace(/```json|```/g,'').trim());
-    if(d.errors&&d.errors.length)DB.addWS({original:d.original,corrected:d.corrected});
-    updateUI();
-    const eH=d.errors&&d.errors.length?d.errors.map(e=>`<div style="margin-bottom:5px;font-size:14px"><span class="err-del">${e.wrong}</span>→<span class="err-fix"> ${e.fix}</span><div style="font-size:12px;color:var(--text-sub);margin-top:1px">${e.reason}</div></div>`).join(''):'<div style="font-size:14px;color:var(--green)">✅ 오류 없음!</div>';
-    const aH=d.better_expressions&&d.better_expressions.length?d.better_expressions.map(e=>{
-    const s=typeof e==='object'?e.sentence:e;
-    const k=typeof e==='object'?e.korean:'';
-    return `<div style="margin-bottom:8px"><div style="font-size:14px;font-weight:600;color:var(--text)">• ${s} ${ttsBt(s)}</div>${k?`<div style="font-size:12px;color:var(--text-sub);margin-top:2px;margin-left:10px">${k}</div>`:''}</div>`;
-  }).join(''):''
-    document.getElementById('w-res').innerHTML=`<div class="res done">
-      <div class="res-sec"><div class="res-lbl"><span class="rdot dot-b"></span>교정된 문장</div><div class="res-box">${d.corrected} ${ttsBt(d.corrected)}</div></div>
-      <div class="divider"></div>
-      <div class="res-sec"><div class="res-lbl"><span class="rdot dot-r"></span>오류 분석</div><div class="res-box">${eH}</div></div>
-      ${aH?`<div class="divider"></div><div class="res-sec"><div class="res-lbl"><span class="rdot dot-g"></span>더 좋은 표현</div><div class="res-box">${aH}</div></div>`:''}
-      <div class="divider"></div><div class="praise-box">🌟 ${d.praise}</div>
+// ══ UI 업데이트 ══
+function updateHero(){
+  const xp=DB.xp(),s=growthName(U.stage);
+  document.getElementById('hero-level').textContent=U.level;
+  document.getElementById('hero-stage-pill').textContent='🌱 '+s.name+' 단계';
+  document.getElementById('hero-name').innerHTML=U.nickname+' <span style="font-size:13px;color:var(--inkSoft)">'+s.sub+'</span>';
+  document.getElementById('hero-xp-lbl').textContent=xp+' / '+U.xpToNext+' XP';
+  document.getElementById('hero-xp-bar').style.width=Math.min(100,Math.round(xp/U.xpToNext*100))+'%';
+  document.getElementById('hero-mascot').innerHTML=mascotSVG(U.stage,160);
+  document.getElementById('home-greeting').textContent='안녕, '+(U.name||'학습자')+'! 👋';
+  document.getElementById('top-stat-bar').innerHTML=[
+    ['🔥',U.streak,'#FF8A4C'],['🪙',U.coins,'#D69215'],['💎',U.gems,'#0E9DB8']
+  ].map(([ic,v,c])=>`<div style="display:flex;align-items:center;gap:5px;background:#fff;padding:5px 11px 5px 7px;border-radius:999px;box-shadow:0 3px 10px rgba(79,80,214,.10)"><span style="font-size:18px">${ic}</span><span style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;color:${c}">${v}</span></div>`).join('');
+}
+
+function renderHome(){
+  updateHero();
+  const wd=['월','화','수','목','금','토','일'];
+  const ti=new Date().getDay()===0?6:new Date().getDay()-1;
+  document.getElementById('streak-card').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:28px">🔥</span>
+        <div><div style="font-family:'Jua',sans-serif;font-size:17px;color:var(--ink)"><span style="color:var(--flame);font-family:'Fredoka',sans-serif;font-weight:700;font-size:20px">${U.streak}</span>일 연속!</div><div style="font-size:12px;color:var(--inkSoft)">오늘도 불씨를 지켜요 🔥</div></div>
+      </div><span class="pill" style="background:#FFF3E6;color:var(--flame)">🧊 보호권 ${U.freezeOwned}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between">
+      ${wd.map((d,i)=>{const done=i<=ti,today=i===ti;return`<div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:32px;height:32px;border-radius:50%;background:${done?(today?'var(--flame)':'#FFE3CB'):'#F0EDFA'};display:flex;align-items:center;justify-content:center;border:${today?'2.5px solid #FFB780':'none'}">${done?`<span style="font-size:15px">${today?'🔥':'✓'}</span>`:''}</div><span style="font-size:11px;color:${today?'var(--flame)':'var(--muted)'};font-family:'Jua',sans-serif">${d}</span></div>`;}).join('')}
     </div>`;
-    addXP(10,'writing');
-  }catch{document.getElementById('w-res').innerHTML=`<div class="res done" style="color:var(--red)">오류가 발생했어요.</div>`}
-  btn.disabled=false;btn.textContent='AI 교정 받기 🤖';
-}
-
-let cHist=[],cTopic='',uSents=[];
-async function startChat(en,ko){
-  cTopic=en;cHist=[];uSents=[];
-  document.getElementById('chat-sel').style.display='none';
-  document.getElementById('chat-area').style.display='block';
-  document.getElementById('chat-lbl').textContent='주제: '+ko;
-  document.getElementById('chat-msgs').innerHTML='';
-  const ai=await apiCall(null,300,[],`You are a friendly English conversation partner for Korean middle school students about "${en}". Ask one warm opening question. Simple vocabulary, max 2 sentences.`);
-  addMsg('ai',ai);cHist.push({role:'assistant',content:ai});
-}
-async function sendChat(){
-  const t=document.getElementById('chat-in').value.trim();if(!t)return;
-  document.getElementById('chat-in').value='';
-  addMsg('user',t);uSents.push(t);cHist.push({role:'user',content:t});
-  document.getElementById('chat-send').disabled=true;
-  const ai=await apiCall(null,400,cHist,`You are a friendly English conversation partner for Korean middle school students about "${cTopic}". Natural, encouraging, max 3 sentences.`);
-  addMsg('ai',ai);cHist.push({role:'assistant',content:ai});
-  document.getElementById('chat-send').disabled=false;
-}
-function chatEnter(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}}
-
-// ── 음성 입력 (Web Speech API) ──
-let recognition=null;
-let isListening=false;
-
-function toggleMic(){
-  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){
-    toast('이 브라우저는 음성 입력을 지원하지 않아요 (Chrome 권장)');return;
-  }
-  if(isListening){stopMic();return;}
-  startMic();
-}
-
-function startMic(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  recognition=new SR();
-  recognition.lang='en-US';
-  recognition.continuous=false;
-  recognition.interimResults=true;
-
-  recognition.onstart=()=>{
-    isListening=true;
-    document.getElementById('mic-btn').classList.add('listening');
-    document.getElementById('mic-btn').innerHTML='<i class="ti ti-microphone-off"></i>';
-    document.getElementById('stt-status').textContent='🎤 듣는 중... (말하고 잠시 기다려 주세요)';
-  };
-
-  recognition.onresult=(e)=>{
-    let interim='',final='';
-    for(let i=e.resultIndex;i<e.results.length;i++){
-      if(e.results[i].isFinal) final+=e.results[i][0].transcript;
-      else interim+=e.results[i][0].transcript;
-    }
-    document.getElementById('chat-in').value=final||interim;
-    if(final) document.getElementById('stt-status').textContent='✅ 인식 완료: "'+final+'"';
-    else document.getElementById('stt-status').textContent='🎤 인식 중: '+interim;
-  };
-
-  recognition.onerror=(e)=>{
-    stopMic();
-    if(e.error==='no-speech') toast('음성이 감지되지 않았어요. 다시 시도해 주세요.');
-    else if(e.error==='not-allowed') toast('마이크 권한을 허용해 주세요.');
-    else toast('음성 인식 오류: '+e.error);
-  };
-
-  recognition.onend=()=>{
-    stopMic();
-    // 인식된 텍스트가 있으면 자동 전송
-    const txt=document.getElementById('chat-in').value.trim();
-    if(txt){
-      setTimeout(()=>{
-        document.getElementById('stt-status').textContent='';
-        sendChat();
-      },500);
-    }
-  };
-
-  recognition.start();
-}
-
-function stopMic(){
-  isListening=false;
-  if(recognition){try{recognition.stop();}catch(e){}}
-  const btn=document.getElementById('mic-btn');
-  if(btn){btn.classList.remove('listening');btn.innerHTML='<i class="ti ti-microphone"></i>';}
-  const st=document.getElementById('stt-status');
-  if(st) st.textContent='';
-}
-function addMsg(role,txt){
-  const c=document.getElementById('chat-msgs'),d=document.createElement('div');
-  d.className='cm'+(role==='user'?' u':'');
-  const tb=role==='ai'?`<div style="margin-top:3px">${ttsBt(txt.substring(0,120))}</div>`:'';
-  d.innerHTML=`<div class="ca">${role==='user'?'😊':'🤖'}</div><div><div class="cb ${role==='user'?'me':'ai'}">${txt}</div>${tb}</div>`;
-  c.appendChild(d);c.scrollTop=c.scrollHeight;
-}
-async function endChat(){
-  if(!uSents.length){toast('먼저 대화를 해보세요!');return}
-  document.getElementById('chat-area').style.display='none';
-  document.getElementById('chat-sel').style.display='block';
-  document.getElementById('chat-lbl').textContent='주제를 선택하세요';
-  go('sc-writing');
-  document.getElementById('w-res').innerHTML=`<div class="res load"><span class="spinner"></span>대화 교정 분석 중...</div>`;
-  document.getElementById('w-in').value='';
-  try{
-    const r=await apiCall(`Student said: "${uSents.join(' / ')}"\nRespond ONLY with JSON: {"overall":"Korean 1-2 sentences","corrections":[{"original":"...","fixed":"...","tip":"Korean under 10 words"}],"great_phrases":["..."]}\nMax 2 corrections.`,600);
-    const d=JSON.parse(r.replace(/```json|```/g,'').trim());
-    if(d.corrections&&d.corrections.length)d.corrections.forEach(c=>DB.addWS({original:c.original,corrected:c.fixed}));
-    updateUI();
-    const cH=d.corrections&&d.corrections.length?d.corrections.map(c=>`<div style="margin-bottom:6px;font-size:14px"><span class="err-del">${c.original}</span>→<span class="err-fix"> ${c.fixed}</span> ${ttsBt(c.fixed)}<div style="font-size:12px;color:var(--text-sub)">${c.tip}</div></div>`).join(''):'<div style="font-size:14px;color:var(--green)">✅ 잘 말했어요!</div>';
-    const gH=d.great_phrases&&d.great_phrases.length?d.great_phrases.map(p=>`<div style="font-size:14px;margin-bottom:3px">✨ "${p}" ${ttsBt(p)}</div>`).join(''):'';
-    document.getElementById('w-res').innerHTML=`<div class="res done">
-      <div class="praise-box" style="margin-bottom:10px">🌟 ${d.overall}</div>
-      <div class="res-sec"><div class="res-lbl"><span class="rdot dot-r"></span>교정 포인트</div><div class="res-box">${cH}</div></div>
-      ${gH?`<div class="divider"></div><div class="res-sec"><div class="res-lbl"><span class="rdot dot-g"></span>잘 쓴 표현</div><div class="res-box">${gH}</div></div>`:''}
+  const cp=U.chestProgress||0;
+  document.getElementById('chest-card').innerHTML=`
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:56px;height:56px;border-radius:18px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 4px 12px rgba(255,201,60,.3);${cp>=5?'animation:wiggle 1s ease-in-out infinite':''}">${cp>=5?'🎁':'📦'}</div>
+      <div style="flex:1"><div style="display:flex;align-items:center;gap:6px"><span style="font-family:'Jua',sans-serif;font-size:16px;color:var(--ink)">오늘의 보물상자</span>${cp>=5?'<span class="pill" style="background:#FFEFC2;color:#C9821A">열 수 있어요!</span>':''}</div>
+        <div style="font-size:12px;color:var(--inkSoft);margin:3px 0 7px">활동 ${cp}/5 완료하면 보상 획득</div>
+        <div class="prog-wrap" style="height:10px;background:#F0EDFA"><div class="prog-fill" style="background:var(--sun);height:10px;width:${cp/5*100}%"></div></div>
+      </div><svg width="20" height="20" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="#A39CC4" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>`;
-    addXP(15,'chat');
-  }catch{document.getElementById('w-res').innerHTML=`<div class="res done" style="color:var(--red)">오류 발생.</div>`}
+  const doneCnt=MISSIONS.filter(m=>m.done>=m.goal).length;
+  document.getElementById('mission-done-lbl').textContent=doneCnt+'/'+MISSIONS.length+' 완료 ›';
+  document.getElementById('mission-list').innerHTML=MISSIONS.map((m,i)=>{
+    const d=m.done>=m.goal;
+    return`<div onclick="go('sc-mission')" style="display:flex;align-items:center;gap:12px;padding:11px 12px;cursor:pointer;border-bottom:${i<MISSIONS.length-1?'1px solid var(--line)':'none'}">
+      <div style="width:38px;height:38px;border-radius:12px;background:${d?'#E7FBF2':'#F1EFFD'};display:flex;align-items:center;justify-content:center;font-size:19px">${d?'✅':m.icon}</div>
+      <div style="flex:1"><div style="font-family:'Jua',sans-serif;font-size:14.5px;color:${d?'var(--muted)':'var(--ink)'};text-decoration:${d?'line-through':'none'}">${m.title}</div><div style="font-size:11.5px;color:var(--muted)">${m.desc}</div></div>
+      <span class="pill">⭐ +${m.xp}</span></div>`;
+  }).join('');
+  document.getElementById('module-grid').innerHTML=MODULES.map(m=>`
+    <div onclick="go('${m.id}')" style="background:#fff;border-radius:20px;padding:15px;cursor:pointer;position:relative;box-shadow:0 8px 20px rgba(79,80,214,.07);border:1px solid #F0EDFA;overflow:hidden">
+      <div style="position:absolute;top:-14px;right:-14px;width:56px;height:56px;border-radius:50%;background:${m.color};opacity:.10"></div>
+      <div style="width:46px;height:46px;border-radius:14px;background:${m.color}1A;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:10px">${m.icon}</div>
+      <div style="font-family:'Jua',sans-serif;font-size:15.5px;color:var(--ink)">${m.title}</div>
+      <div style="font-size:11.5px;color:var(--inkSoft);margin:2px 0 8px;line-height:1.3">${m.sub}</div>
+      <span style="font-size:11px;color:${m.color};font-family:'Jua',sans-serif">${m.tag}</span>
+    </div>`).join('');
+  document.getElementById('other-missions').innerHTML=MISSIONS.slice(1).map(m=>`
+    <div class="card" style="margin-bottom:10px;padding:14px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:20px">${m.icon}</span><div style="flex:1"><div style="font-family:'Jua',sans-serif;font-size:14px;color:var(--ink)">${m.title}</div><div style="font-size:12px;color:var(--inkSoft)">${m.desc}</div></div><span class="pill">+${m.xp} XP</span></div>
+      <div class="prog-wrap" style="height:8px;background:#F0EDFA"><div class="prog-fill" style="background:var(--indigo);height:8px;width:${Math.min(100,Math.round((m.done||0)/m.goal*100))}%"></div></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">${m.done}/${m.goal} 완료</div>
+    </div>`).join('');
 }
 
-async function submitMission(){
-  const txt=document.getElementById('mis-in').value.trim();if(!txt){toast('문장을 써보세요!');return}
-  document.getElementById('mis-res').innerHTML=`<div class="res load" style="margin-top:10px"><span class="spinner"></span>평가 중...</div>`;
-  try{
-    const r=await apiCall(`Student wrote about weekend plans: "${txt}"\nRespond ONLY with JSON: {"score":85,"feedback":"Korean","corrected":"...","tip":"Korean under 15 words"}`,500);
-    const d=JSON.parse(r.replace(/```json|```/g,'').trim());
-    addXP(30,'mission');
-    document.getElementById('mis-res').innerHTML=`<div style="margin-top:12px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="font-size:22px;font-weight:700;color:var(--primary)">${d.score}점</div><div style="font-size:12px;background:var(--green-bg);color:var(--green);padding:3px 9px;border-radius:20px;font-weight:600">완료! +30XP</div></div>
-      <div class="praise-box" style="margin-bottom:8px">${d.feedback}</div>
-      <div class="res-box" style="font-size:13px"><strong>교정:</strong> ${d.corrected} ${ttsBt(d.corrected)}<br><span style="font-size:12px;color:var(--text-sub);margin-top:3px;display:block">💡 ${d.tip}</span></div>
-    </div>`;
-  }catch{document.getElementById('mis-res').innerHTML=`<div style="color:var(--red);font-size:13px;margin-top:8px">오류 발생.</div>`}
+function renderRank(){
+  const top3=LEADERBOARD.slice(0,3);
+  const ord=[top3[1],top3[0],top3[2]];
+  const hs=[72,90,60],meds=['🥈','🥇','🥉'],cols=['#9AA7B8','#FFC93C','#C98A5A'];
+  document.getElementById('rank-podium').innerHTML=ord.map((p,i)=>`
+    <div class="podium-item">
+      <div style="font-size:24px">${meds[i]}</div>
+      <div style="width:${i===1?60:50}px;height:${i===1?60:50}px;border-radius:50%;background:${p.color}22;border:3px solid ${cols[i]};display:flex;align-items:center;justify-content:center;font-size:${i===1?26:22}px">${p.avatar}</div>
+      <div style="font-family:'Jua',sans-serif;font-size:13px;color:var(--ink)">${p.name}</div>
+      <div style="font-family:'Fredoka',sans-serif;font-size:12px;color:var(--inkSoft)">${p.xp.toLocaleString()} XP</div>
+      <div class="podium-base" style="width:${i===1?80:68}px;height:${hs[i]}px;background:${cols[i]}22;border:2px solid ${cols[i]}"></div>
+    </div>`).join('');
+  document.getElementById('rank-list').innerHTML=LEADERBOARD.slice(3).map(p=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);${p.isUser?'background:var(--bg);border-radius:12px;padding:12px;margin:-2px 0':''}">
+      <div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;color:var(--muted);width:24px;text-align:center">${p.rank}</div>
+      <div style="width:42px;height:42px;border-radius:50%;background:${p.color}22;display:flex;align-items:center;justify-content:center;font-size:22px">${p.avatar}</div>
+      <div style="flex:1"><div style="font-family:'Jua',sans-serif;font-size:14px;color:var(--ink)">${p.name}${p.isUser?' <span class="pill" style="font-size:10px;padding:2px 7px">나</span>':''}</div><div style="font-family:'Fredoka',sans-serif;font-size:12px;color:var(--inkSoft)">${p.xp.toLocaleString()} XP</div></div>
+    </div>`).join('');
 }
 
-async function submitStory(){
-  const txt=document.getElementById('story-in').value.trim();if(!txt){toast('이야기를 이어써 보세요!');return}
-  document.getElementById('story-res').innerHTML=`<div class="res load"><span class="spinner"></span>AI가 읽는 중...</div>`;
-  const start=document.getElementById('story-txt').textContent;
-  try{
-    const r=await apiCall(`Story: "${start}" Student: "${txt}"\nRespond ONLY with JSON: {"corrected":"...","errors":[{"wrong":"...","fix":"...","reason":"Korean under 10 words"}],"next":"1-2 sentences"}\nMax 2 errors.`,600);
-    const d=JSON.parse(r.replace(/```json|```/g,'').trim());
-    const eH=d.errors&&d.errors.length?d.errors.map(e=>`<div style="margin-bottom:5px;font-size:14px"><span class="err-del">${e.wrong}</span>→<span class="err-fix"> ${e.fix}</span><div style="font-size:12px;color:var(--text-sub)">${e.reason}</div></div>`).join(''):'<div style="font-size:14px;color:var(--green)">✅ 오류 없음!</div>';
-    const nxt=d.next||'';
-    document.getElementById('story-res').innerHTML=`<div class="res done">
-      <div class="res-sec"><div class="res-lbl"><span class="rdot dot-b"></span>교정된 문장</div><div class="res-box">${d.corrected} ${ttsBt(d.corrected)}</div></div>
-      <div class="divider"></div>
-      <div class="res-sec"><div class="res-lbl"><span class="rdot dot-r"></span>오류 분석</div><div class="res-box">${eH}</div></div>
-      <div class="divider"></div>
-      <div class="story-box"><div class="story-by">🤖 AI 계속</div>${nxt} ${ttsBt(nxt)}</div>
-      <button class="btn-p" style="margin-top:8px" onclick="(()=>{document.getElementById('story-txt').textContent+=' '+${JSON.stringify(nxt)};document.getElementById('story-res').innerHTML='';window.scrollTo(0,0)})()">이야기 계속하기 ➡️</button>
-    </div>`;
-    addXP(15,'story');
-    document.getElementById('story-in').value='';
-  }catch{document.getElementById('story-res').innerHTML=`<div class="res done" style="color:var(--red)">오류 발생.</div>`}
-}
-
-function odTab(t,el){
-  document.querySelectorAll('#sc-odam .ltab').forEach(x=>x.classList.remove('on'));el.classList.add('on');
-  document.getElementById('od-wl').style.display=t==='word'?'block':'none';
-  document.getElementById('od-sl').style.display=t==='sent'?'block':'none';
-}
-function renderOdam(){
-  const ww=DB.ww(),ws=DB.ws();
-  document.getElementById('od-stats').innerHTML=`
-    <div class="stat"><div class="stat-n">${ww.length}</div><div class="stat-l">오답 단어</div></div>
-    <div class="stat"><div class="stat-n">${ws.length}</div><div class="stat-l">오답 문장</div></div>
-    <div class="stat"><div class="stat-n">${ww.reduce((a,w)=>a+(w.cnt||1),0)}</div><div class="stat-l">총 오답 수</div></div>`;
-  document.getElementById('od-wl').innerHTML=!ww.length?`<div class="empty">아직 오답 단어가 없어요 🎉</div>`:
-    ww.map(w=>`<div class="on-item"><div><div class="on-word">${w.word}</div><div class="on-mean">${w.meaning}</div></div>
-    <div style="display:flex;align-items:center;gap:6px"><button class="tts-btn sm" onclick="tts('','${w.word}')">🔊</button><span class="on-wrong">${w.cnt||1}번</span></div></div>`).join('');
-  document.getElementById('od-sl').innerHTML=!ws.length?`<div class="empty">아직 오답 문장이 없어요 ✍️</div>`:
-    ws.map(s=>`<div class="on-wri"><div class="on-orig">내 문장: ${s.original}</div>
-    <div class="on-corr">교정: ${s.corrected} ${ttsBt(s.corrected)}</div>
-    <div class="on-date">${s.date||''}</div></div>`).join('');
+function renderBadge(){
+  const u=BADGES.filter(b=>b.unlocked).length;
+  document.getElementById('badge-prog-txt').textContent=u+' / '+BADGES.length+' 배지 획득';
+  document.getElementById('badge-grid').innerHTML=BADGES.map(b=>`
+    <div class="badge-item ${b.unlocked?'unlocked':'locked'}" style="border-color:${b.unlocked?b.rc:'transparent'}">
+      <div style="font-size:${b.unlocked?32:26}px;${b.unlocked?'':'filter:grayscale(1)'}">${b.icon}</div>
+      <div style="font-family:'Jua',sans-serif;font-size:12px;color:${b.unlocked?'var(--ink)':'var(--muted)'}">${b.name}</div>
+      <span style="font-size:10px;color:${b.rc};font-family:'Jua',sans-serif">${b.rarity}</span>
+      ${!b.unlocked&&b.prog?`<div class="prog-wrap" style="width:100%;height:5px;background:#F0EDFA"><div class="prog-fill" style="background:${b.rc};height:5px;width:${b.prog*100}%"></div></div>`:''}
+      <span style="font-size:14px">${b.unlocked?'✅':'🔒'}</span>
+    </div>`).join('');
 }
 
 function renderStats(){
   const log=DB.log();
-  const days=Array.from({length:7},(_,i)=>6-i).map(n=>({
-    key:ago(n),lbl:dayLbl(n),n,
-    ...(log[ago(n)]||{xp:0,acts:0,quiz:0,writing:0,chat:0,mission:0,story:0})
-  }));
-  const totXP=days.reduce((a,d)=>a+d.xp,0),totActs=days.reduce((a,d)=>a+d.acts,0);
-  const activeDays=days.filter(d=>d.acts>0).length;
-  const best=days.reduce((a,d)=>d.xp>a.xp?d:a,{xp:0,lbl:'-'});
-  document.getElementById('sum-cards').innerHTML=`
-    <div class="sum-c"><div class="sum-n">${totXP}</div><div class="sum-l">주간 XP 합계</div></div>
-    <div class="sum-c"><div class="sum-n">${totActs}</div><div class="sum-l">총 학습 횟수</div></div>
-    <div class="sum-c"><div class="sum-n">${activeDays}<span style="font-size:13px;font-weight:400"> / 7일</span></div><div class="sum-l">학습한 날</div></div>
-    <div class="sum-c"><div class="sum-n" style="font-size:16px">${best.lbl}</div><div class="sum-l">최고 XP 요일 (${best.xp}XP)</div></div>`;
-  const mxXP=Math.max(...days.map(d=>d.xp),1),mxAct=Math.max(...days.map(d=>d.acts),1);
-  document.getElementById('xp-chart').innerHTML=days.map(d=>`<div class="bw"><div class="bar-val">${d.xp||''}</div><div class="bar ${d.n===0?'bar-today':'bar-past'}" style="height:${Math.max(3,Math.round(d.xp/mxXP*82))}px"></div><div class="bar-lbl">${d.lbl}</div></div>`).join('');
-  document.getElementById('act-chart').innerHTML=days.map(d=>`<div class="bw"><div class="bar-val">${d.acts||''}</div><div class="bar ${d.n===0?'bar-today':'bar-past'}" style="height:${Math.max(3,Math.round(d.acts/mxAct*82))}px"></div><div class="bar-lbl">${d.lbl}</div></div>`).join('');
-  const mods=[{k:'quiz',n:'단어 퀴즈',ic:'📖',c:'#5B5FE8'},{k:'writing',n:'영작 교정',ic:'✍️',c:'#10B981'},{k:'chat',n:'AI 회화',ic:'💬',c:'#F59E0B'},{k:'mission',n:'오늘의 미션',ic:'🎯',c:'#EF4444'},{k:'story',n:'스토리',ic:'📚',c:'#8B5CF6'}];
-  const tots={};mods.forEach(m=>{tots[m.k]=days.reduce((a,d)=>a+(d[m.k]||0),0)});
-  const mxM=Math.max(...Object.values(tots),1);
-  document.getElementById('mod-stats').innerHTML=mods.map(m=>`<div class="mod-row"><div class="mod-ic">${m.ic}</div><div class="mod-inf"><div class="mod-n">${m.n}</div><div class="mod-bw"><div class="mod-bf" style="width:${Math.round(tots[m.k]/mxM*100)}%;background:${m.c}"></div></div></div><div class="mod-cnt">${tots[m.k]}회</div></div>`).join('');
+  const days=Array.from({length:7},(_,i)=>6-i).map(n=>({key:ago(n),lbl:dayLbl(n),n,...(log[ago(n)]||{xp:0,acts:0})}));
+  const totXP=days.reduce((a,d)=>a+d.xp,0),totActs=days.reduce((a,d)=>a+d.acts,0),actDays=days.filter(d=>d.acts>0).length;
+  document.getElementById('stats-summary').innerHTML=`
+    <div class="card" style="text-align:center;padding:14px 8px"><div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px;color:var(--indigo)">${totXP}</div><div style="font-size:11px;color:var(--inkSoft)">주간 XP</div></div>
+    <div class="card" style="text-align:center;padding:14px 8px"><div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px;color:var(--mint)">${actDays}</div><div style="font-size:11px;color:var(--inkSoft)">학습한 날</div></div>
+    <div class="card" style="text-align:center;padding:14px 8px"><div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px;color:var(--flame)">${totActs}</div><div style="font-size:11px;color:var(--inkSoft)">총 활동</div></div>`;
+  const mxXP=Math.max(...days.map(d=>d.xp),1);
+  document.getElementById('xp-chart').innerHTML=days.map(d=>`
+    <div class="bar-col"><div class="bar-val">${d.xp||''}</div><div class="bar-rect" style="height:${Math.max(4,Math.round(d.xp/mxXP*80))}px;background:${d.n===0?'var(--indigo)':'#C7CAF5'}"></div><div class="bar-lbl">${d.lbl}</div></div>`).join('');
+  const mx=Math.max(...STATS_DATA.modules.map(m=>m.value));
+  document.getElementById('mod-bars').innerHTML=STATS_DATA.modules.map(m=>`
+    <div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--line)">
+      <div style="font-size:13px;font-family:'Jua',sans-serif;color:var(--ink);width:40px">${m.label}</div>
+      <div style="flex:1"><div class="prog-wrap" style="height:10px;background:#F0EDFA"><div class="prog-fill" style="background:${m.color};height:10px;width:${Math.round(m.value/mx*100)}%"></div></div></div>
+      <div style="font-size:12px;color:var(--inkSoft);width:32px;text-align:right">${m.value}</div>
+    </div>`).join('');
 }
 
-// ── API KEY — Supabase app_config에서 자동 로드 ──
-let _cachedGeminiKey = localStorage.getItem('enggo_apikey') || '';
+function renderOdam(){
+  const ww=DB.ww(),ws=DB.ws();
+  document.getElementById('odam-stats').innerHTML=`
+    <div class="card" style="text-align:center;padding:10px 6px"><div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px;color:var(--ink)">${ww.length}</div><div style="font-size:11px;color:var(--inkSoft)">오답 단어</div></div>
+    <div class="card" style="text-align:center;padding:10px 6px"><div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px;color:var(--ink)">${ws.length}</div><div style="font-size:11px;color:var(--inkSoft)">오답 문장</div></div>
+    <div class="card" style="text-align:center;padding:10px 6px"><div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px;color:var(--ink)">${ww.reduce((a,w)=>a+(w.cnt||1),0)}</div><div style="font-size:11px;color:var(--inkSoft)">총 오답</div></div>`;
+  document.getElementById('odam-wl').innerHTML=!ww.length?`<div style="text-align:center;color:var(--muted);padding:24px;font-family:'Jua',sans-serif">아직 오답 단어가 없어요 🎉</div>`:
+    ww.map(w=>`<div style="background:#fff;border-radius:14px;padding:13px 15px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(79,80,214,.06);border:1px solid #F0EDFA">
+      <div><div style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:16px;color:var(--ink)">${w.word}</div><div style="font-size:12px;color:var(--inkSoft);margin-top:2px">${w.meaning}</div></div>
+      <div style="display:flex;align-items:center;gap:6px"><button onclick="ttsSpk('${w.word}')" style="background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer;color:var(--indigo)">🔊</button><span class="pill" style="background:#FEE2E2;color:#DC2626">${w.cnt||1}번</span></div>
+    </div>`).join('');
+  document.getElementById('odam-sl').innerHTML=!ws.length?`<div style="text-align:center;color:var(--muted);padding:24px;font-family:'Jua',sans-serif">아직 오답 문장이 없어요 ✍️</div>`:
+    ws.map(s=>`<div style="background:#fff;border-radius:14px;padding:13px;margin-bottom:8px;box-shadow:0 4px 12px rgba(79,80,214,.06);border:1px solid #F0EDFA">
+      <div style="font-size:13px;color:var(--inkSoft);margin-bottom:4px;text-decoration:line-through">${s.original||''}</div>
+      <div style="font-size:14px;color:var(--mint);font-weight:500">→ ${s.corrected||''}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:3px">${s.date||''}</div>
+    </div>`).join('');
+}
+function odTab(t,el){
+  document.querySelectorAll('#sc-odam .seg-tab').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+  document.getElementById('odam-wl').style.display=t==='word'?'block':'none';
+  document.getElementById('odam-sl').style.display=t==='sent'?'block':'none';
+}
 
-async function loadGeminiKey(){
+function renderProfile(){
+  const s=growthName(U.stage);
+  document.getElementById('profile-mascot').innerHTML=mascotSVG(U.stage,110,'happy',false);
+  document.getElementById('profile-name').textContent=U.nickname||'콩이';
+  document.getElementById('profile-stage').textContent=s.name+' 단계 · Lv.'+U.level;
+  document.getElementById('profile-stats').innerHTML=[
+    [U.streak,'연속'],[ U.coins,'코인'],[BADGES.filter(b=>b.unlocked).length,'배지']
+  ].map(([v,l])=>`<div style="text-align:center"><div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:20px;color:var(--indigo)">${v}</div><div style="font-size:11px;color:var(--inkSoft)">${l}</div></div>`).join('');
+}
+
+// ══ 퀴즈 ══
+let qLv='초급',qIdx=0,qFlipped=false,qKnown=0,tSpd=0.9;
+function setQuizLv(lv,el){qLv=lv;qIdx=0;qFlipped=false;qKnown=0;document.querySelectorAll('#quiz-level-tabs .seg-tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');loadCard();}
+function loadCard(){
+  const ws=WORD_LEVELS[qLv];const w=ws[qIdx%ws.length];
+  document.getElementById('fc-pos-pill').textContent=w.pos+' · '+w.posKr;
+  document.getElementById('fc-word').textContent=w.word;
+  document.getElementById('fc-hint').textContent='💡 힌트: '+w.hint;
+  document.getElementById('fc-word-b').textContent=w.word;
+  document.getElementById('fc-meaning').textContent=w.meaning;
+  document.getElementById('fc-ex').textContent='"'+w.ex+'"';
+  document.getElementById('fc-ex-kr').textContent=w.exKr;
+  document.getElementById('fc-inner').classList.remove('flipped');
+  document.getElementById('quiz-pill').textContent=(qIdx%ws.length+1)+' / '+ws.length;
+  document.getElementById('quiz-dots').innerHTML=ws.map((_,i)=>`<div style="flex:1;height:6px;border-radius:999px;background:${i<qIdx%ws.length?'var(--mint)':i===qIdx%ws.length?'var(--indigo)':'#E6E2F5'}"></div>`).join('');
+  qFlipped=false;
+}
+function flipCard(){if(!qFlipped){document.getElementById('fc-inner').classList.add('flipped');qFlipped=true;ttsPlay('word');}}
+function quizAns(knew){
+  const ws=WORD_LEVELS[qLv];const w=ws[qIdx%ws.length];
+  if(!knew)DB.addWW(w);else{gainXP(5,'quiz');qKnown++;}
+  qIdx++;if(qIdx>=ws.length){showToast('🎉 퀴즈 완료! +'+qKnown*4+'XP');gainXP(qKnown*4+10,'quiz');qIdx=0;qKnown=0;}
+  loadCard();
+}
+function ttsPlay(t){const w=document.getElementById('fc-word').textContent;const ex=document.getElementById('fc-ex').textContent.replace(/"/g,'');ttsSpk(t==='word'?w:ex);}
+function ttsSpk(text){if(!window.speechSynthesis)return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=tSpd;window.speechSynthesis.speak(u);}
+function setSpd(v){tSpd=v;}
+
+// ══ 영작 교정 ══
+let wTopic='';
+function initWriteTopics(){document.getElementById('write-topics').innerHTML=WRITE_TOPICS.map(t=>`<button class="pill" style="cursor:pointer;flex-shrink:0" onclick="selWT('${t.label}',this)">${t.emoji} ${t.label}</button>`).join('');}
+function selWT(t,el){wTopic=t;document.querySelectorAll('#write-topics .pill').forEach(b=>{b.style.background='#F1EFFD';b.style.color='var(--indigoDeep)'});el.style.background='var(--indigo)';el.style.color='#fff';}
+async function submitWriting(){
+  const txt=document.getElementById('write-input').value.trim();if(!txt){showToast('문장을 먼저 입력해 주세요!');return;}
+  const btn=document.getElementById('write-btn');btn.disabled=true;btn.textContent='교정 중...';
+  document.getElementById('write-result').innerHTML=loadingHTML('콩이쌤이 교정 중...');
   try{
-    const r=await fetch(SB_URL+'/rest/v1/app_config?key=eq.gemini_api_key&select=value',{
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
-    });
-    const d=await r.json();
-    if(d&&d.length&&d[0].value){
-      _cachedGeminiKey=d[0].value;
-      localStorage.setItem('enggo_apikey',_cachedGeminiKey);
-    }
-  }catch(e){console.error('[key]',e);}
-  return _cachedGeminiKey;
+    const r=await apiCall(`You are a friendly English tutor for Korean middle school students.${wTopic?' Topic: '+wTopic+'.':''}
+Student wrote: "${txt}"
+Respond ONLY with valid JSON (no markdown):
+{"original":"...","corrected":"...","errors":[{"wrong":"...","fix":"...","reason":"Korean under 15 words"}],"better_expressions":[{"sentence":"complete natural English sentence","korean":"Korean translation"}],"praise":"Korean 1 sentence"}
+If no errors, errors=[], corrected=original. Provide 2 better_expressions as complete sentences.`,900);
+    const d=JSON.parse(r.replace(/```json|```/g,'').trim());
+    if(d.errors&&d.errors.length)DB.addWS({original:d.original,corrected:d.corrected});
+    const errH=d.errors&&d.errors.length?d.errors.map(e=>`<div style="margin-bottom:6px;font-size:14px"><span style="color:var(--coral);text-decoration:line-through">${e.wrong}</span> → <span style="color:var(--mint);font-weight:600">${e.fix}</span><div style="font-size:12px;color:var(--inkSoft);margin-top:1px">${e.reason}</div></div>`).join(''):`<div style="font-size:14px;color:var(--mint)">✅ 오류 없음!</div>`;
+    const altH=d.better_expressions&&d.better_expressions.length?d.better_expressions.map(e=>{const s=typeof e==='object'?e.sentence:e;const k=typeof e==='object'?e.korean:'';return`<div style="margin-bottom:8px"><div style="font-size:14px;font-weight:600;color:var(--ink)">• ${s} <button onclick="ttsSpk('${s.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--indigo)">🔊</button></div>${k?`<div style="font-size:12px;color:var(--inkSoft);margin-top:2px;margin-left:10px">${k}</div>`:''}</div>`;}).join(''):'';
+    document.getElementById('write-result').innerHTML=`
+      <div style="margin-bottom:10px"><div style="font-size:11px;font-weight:600;color:var(--inkSoft);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">교정된 문장</div>
+        <div style="background:linear-gradient(135deg,#F0FFF8,#E8F8FF);border:2px solid var(--mint);border-radius:14px;padding:12px 14px;font-size:15px;font-weight:600;color:var(--ink)">${d.corrected} <button onclick="ttsSpk('${d.corrected.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:rgba(52,217,164,.15);border:none;border-radius:999px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--mint)">🔊</button></div></div>
+      <div style="margin-bottom:10px"><div style="font-size:11px;font-weight:600;color:var(--inkSoft);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">고친 부분</div>
+        <div style="background:#FFF8F8;border:1.5px solid #FFE0E0;border-radius:14px;padding:12px 14px">${errH}</div></div>
+      ${altH?`<div style="margin-bottom:10px"><div style="font-size:11px;font-weight:600;color:var(--inkSoft);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">더 좋은 표현</div><div style="background:#F7F5FD;border-radius:14px;padding:12px 14px">${altH}</div></div>`:''}
+      <div style="background:linear-gradient(135deg,#F0FFF8,#EEF0FF);border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px">
+        <div>${mascotSVG(U.stage,48,'excited',false)}</div>
+        <div><div style="font-family:'Jua',sans-serif;font-size:14px;color:var(--ink)">콩이쌤 한마디</div><div style="font-size:13px;color:var(--inkSoft);margin-top:2px">${d.praise}</div></div>
+        <span class="pill" style="background:#EEF0FF;color:var(--indigo)">+10 XP</span>
+      </div>`;
+    gainXP(10,'writing');
+  }catch(e){document.getElementById('write-result').innerHTML=errHTML();}
+  btn.disabled=false;btn.textContent='AI 교정 받기 🤖';
 }
 
-function getApiKey(){return _cachedGeminiKey||localStorage.getItem('enggo_apikey')||'';}
-function setApiKey(k){_cachedGeminiKey=k.trim();localStorage.setItem('enggo_apikey',k.trim());}
-function checkApiKey(){
-  if(!getApiKey()){go('sc-settings');toast('먼저 API 키를 입력해 주세요!');}
+// ══ AI 회화 ══
+let cHist=[],cTopicEn='',uSents=[];
+let recog=null,isListen=false;
+function initChatTopics(){
+  document.getElementById('chat-topics').innerHTML=CONVO_TOPICS.map(t=>`
+    <div onclick="startChat('${t.en}','${t.label}')" style="background:#fff;border-radius:18px;padding:18px;text-align:center;cursor:pointer;box-shadow:0 6px 16px rgba(79,80,214,.08);border:1px solid var(--line)">
+      <div style="font-size:32px;margin-bottom:8px">${t.emoji}</div>
+      <div style="font-family:'Jua',sans-serif;font-size:15px;color:var(--ink)">${t.label}</div>
+    </div>`).join('');
+}
+async function startChat(en,ko){
+  cTopicEn=en;cHist=[];uSents=[];
+  document.getElementById('chat-topic-sel').style.display='none';
+  document.getElementById('chat-area').style.display='block';
+  document.getElementById('chat-title').textContent='AI 회화 💬 — '+ko;
+  document.getElementById('chat-msgs').innerHTML='';
+  const ai=await apiCall(null,300,[],`You are a friendly English conversation partner for Korean middle school students about "${en}". Ask one warm opening question. Simple vocabulary, max 2 sentences.`);
+  appendMsg('ai',ai);cHist.push({role:'assistant',content:ai});
+}
+async function sendChat(){
+  const t=document.getElementById('chat-input').value.trim();if(!t)return;
+  document.getElementById('chat-input').value='';
+  appendMsg('user',t);uSents.push(t);cHist.push({role:'user',content:t});
+  document.getElementById('chat-send').disabled=true;
+  const ai=await apiCall(null,400,cHist,`You are a friendly English conversation partner for Korean middle school students about "${cTopicEn}". Natural, encouraging, max 3 sentences.`);
+  appendMsg('ai',ai);cHist.push({role:'assistant',content:ai});
+  document.getElementById('chat-send').disabled=false;
+}
+function chatEnter(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+function appendMsg(role,txt){
+  const c=document.getElementById('chat-msgs'),d=document.createElement('div');
+  d.style.cssText='display:flex;gap:7px;align-items:flex-end;'+(role==='user'?'flex-direction:row-reverse;align-self:flex-end':'');
+  const tb=role==='ai'?`<button onclick="ttsSpk('${txt.replace(/'/g,"\\'").substring(0,120)}')" style="background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--indigo);margin-top:4px;display:block">🔊</button>`:'';
+  d.innerHTML=`${role==='ai'?`<div style="width:30px;height:30px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">${mascotSVG(U.stage,30,'happy',false)}</div>`:''}
+    <div><div class="chat-bubble ${role==='ai'?'cb-ai':'cb-me'}">${txt}</div>${tb}</div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+function toggleMic(){
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){showToast('Chrome 브라우저에서 사용 가능해요');return;}
+  if(isListen){stopMic();return;}startMic();
+}
+function startMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recog=new SR();recog.lang='en-US';recog.continuous=false;recog.interimResults=true;
+  recog.onstart=()=>{isListen=true;document.getElementById('mic-btn').textContent='🔴';document.getElementById('stt-status').textContent='🎤 듣는 중...';};
+  recog.onresult=(e)=>{let f='',int='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)f+=e.results[i][0].transcript;else int+=e.results[i][0].transcript;}document.getElementById('chat-input').value=f||int;if(f)document.getElementById('stt-status').textContent='✅ "'+f+'"';};
+  recog.onerror=(e)=>{stopMic();if(e.error==='not-allowed')showToast('마이크 권한을 허용해 주세요.');};
+  recog.onend=()=>{stopMic();const t=document.getElementById('chat-input').value.trim();if(t)setTimeout(()=>{document.getElementById('stt-status').textContent='';sendChat();},500);};
+  recog.start();
+}
+function stopMic(){isListen=false;if(recog)try{recog.stop();}catch(e){}document.getElementById('mic-btn').textContent='🎤';document.getElementById('stt-status').textContent='';}
+async function endChat(){
+  if(!uSents.length){showToast('먼저 대화를 해보세요!');return;}
+  document.getElementById('chat-area').style.display='none';
+  document.getElementById('chat-topic-sel').style.display='block';
+  document.getElementById('chat-title').textContent='AI 회화 💬';
+  go('sc-writing');
+  document.getElementById('write-result').innerHTML=loadingHTML('대화 교정 분석 중...');
+  document.getElementById('write-input').value='';
+  try{
+    const r=await apiCall(`Student said: "${uSents.join(' / ')}"\nRespond ONLY with JSON: {"overall":"Korean 1-2 sentences","corrections":[{"original":"...","fixed":"...","tip":"Korean under 10 words"}],"great_phrases":["..."]}\nMax 2 corrections.`,600);
+    const d=JSON.parse(r.replace(/```json|```/g,'').trim());
+    if(d.corrections&&d.corrections.length)d.corrections.forEach(c=>DB.addWS({original:c.original,corrected:c.fixed}));
+    const cH=d.corrections&&d.corrections.length?d.corrections.map(c=>`<div style="margin-bottom:6px;font-size:14px"><span style="color:var(--coral);text-decoration:line-through">${c.original}</span> → <span style="color:var(--mint);font-weight:600">${c.fixed}</span> <button onclick="ttsSpk('${c.fixed.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--indigo)">🔊</button><div style="font-size:12px;color:var(--inkSoft)">${c.tip}</div></div>`).join(''):`<div style="font-size:14px;color:var(--mint)">✅ 잘 말했어요!</div>`;
+    const gH=d.great_phrases&&d.great_phrases.length?d.great_phrases.map(p=>`<div style="font-size:14px;margin-bottom:3px">✨ "${p}" <button onclick="ttsSpk('${p.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--indigo)">🔊</button></div>`).join(''):'';
+    document.getElementById('write-result').innerHTML=`
+      <div style="background:linear-gradient(135deg,#F0FFF8,#EEF0FF);border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px;margin-bottom:10px">${mascotSVG(U.stage,48,'excited',false)}<div style="font-size:13px;color:var(--ink)">${d.overall}</div></div>
+      <div style="background:#FFF8F8;border:1.5px solid #FFE0E0;border-radius:14px;padding:12px 14px;margin-bottom:${gH?'10px':'0'}">${cH}</div>
+      ${gH?`<div style="background:#F7F5FD;border-radius:14px;padding:12px 14px">${gH}</div>`:''}`;
+    gainXP(25,'chat');
+  }catch(e){document.getElementById('write-result').innerHTML=errHTML();}
 }
 
-async function apiCall(prompt,maxTok=800,history=[],sys){
-  const key=getApiKey();
-  if(!key){go('sc-settings');toast('API 키를 먼저 입력해 주세요!');throw new Error('no key');}
+// ══ 스토리 ══
+async function submitStory(){
+  const txt=document.getElementById('story-input').value.trim();if(!txt){showToast('이야기를 이어써 보세요!');return;}
+  document.getElementById('story-result').innerHTML=loadingHTML('콩이가 읽고 있어요...');
+  const start=document.getElementById('story-text').textContent;
+  try{
+    const r=await apiCall(`Story: "${start}" Student: "${txt}"\nRespond ONLY with JSON: {"corrected":"...","errors":[{"wrong":"...","fix":"...","reason":"Korean under 10 words"}],"next":"1-2 exciting sentences"}\nMax 2 errors.`,600);
+    const d=JSON.parse(r.replace(/```json|```/g,'').trim());
+    const eH=d.errors&&d.errors.length?d.errors.map(e=>`<div style="margin-bottom:5px;font-size:14px"><span style="color:var(--coral);text-decoration:line-through">${e.wrong}</span> → <span style="color:var(--mint);font-weight:600">${e.fix}</span><div style="font-size:12px;color:var(--inkSoft)">${e.reason}</div></div>`).join(''):`<div style="font-size:14px;color:var(--mint)">✅ 오류 없음!</div>`;
+    const nxt=d.next||'';
+    const safNxt=nxt.replace(/'/g,"\\'").replace(/"/g,'').substring(0,200);
+    document.getElementById('story-result').innerHTML=`
+      <div style="background:linear-gradient(135deg,#F0FFF8,#E8F8FF);border:2px solid var(--mint);border-radius:14px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-size:11px;color:var(--mint);font-family:'Jua',sans-serif;margin-bottom:4px">교정된 내 문장</div>
+        <div style="font-size:14px;color:var(--ink)">${d.corrected} <button onclick="ttsSpk('${d.corrected.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:rgba(52,217,164,.15);border:none;border-radius:999px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--mint)">🔊</button></div>
+      </div>
+      <div style="background:#FFF8F8;border:1.5px solid #FFE0E0;border-radius:14px;padding:12px 14px;margin-bottom:10px">${eH}</div>
+      <div style="background:linear-gradient(135deg,#FFF8F0,#FFF0F8);border:2px solid var(--flame);border-radius:14px;padding:14px;margin-bottom:10px">
+        <div style="font-size:11px;color:var(--flame);font-family:'Jua',sans-serif;margin-bottom:4px">🤖 AI가 계속합니다</div>
+        <div style="font-size:14px;color:var(--ink);line-height:1.7">${nxt} <button onclick="ttsSpk('${nxt.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:rgba(255,138,76,.15);border:none;border-radius:999px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--flame)">🔊</button></div>
+      </div>
+      <div style="background:linear-gradient(135deg,#F0FFF8,#EEF0FF);border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        ${mascotSVG(U.stage,48,'excited',false)}<div style="flex:1"><div style="font-family:'Jua',sans-serif;font-size:13px;color:var(--ink)">대단해요! 이야기를 멋지게 이어갔어요 ✨</div></div>
+        <span class="pill" style="background:#EEF0FF;color:var(--indigo)">+30 XP</span>
+      </div>
+      <button class="btn-p" style="background:var(--flame);box-shadow:0 6px 0 rgba(210,90,30,.5)" onclick="(()=>{document.getElementById('story-text').textContent+=' ${safNxt}';document.getElementById('story-result').innerHTML='';document.getElementById('scroll-area').scrollTop=0;})()">이야기 계속하기 ➡️</button>`;
+    gainXP(30,'story');document.getElementById('story-input').value='';
+  }catch(e){document.getElementById('story-result').innerHTML=errHTML();}
+}
 
-  const model='gemini-2.5-flash';
-  const url=`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+// ══ 미션 ══
+async function submitMission(){
+  const txt=document.getElementById('mission-input').value.trim();if(!txt){showToast('문장을 써보세요!');return;}
+  document.getElementById('mission-result').innerHTML=loadingHTML('평가 중...');
+  try{
+    const r=await apiCall(`Student wrote about weekend plans: "${txt}"\nRespond ONLY with JSON: {"score":85,"feedback":"Korean 1-2 sentences","corrected":"...","tip":"Korean under 15 words"}`,500);
+    const d=JSON.parse(r.replace(/```json|```/g,'').trim());
+    gainXP(30,'mission');fireConfetti();
+    document.getElementById('mission-result').innerHTML=`
+      <div style="background:linear-gradient(135deg,#EEF0FF,#F4EBFF);border-radius:14px;padding:16px;margin-top:4px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:28px;color:var(--indigo)">${d.score}점</div>
+          <span class="pill" style="background:#D1FAE5;color:#065F46">미션 완료! +30XP 🎉</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">${mascotSVG(U.stage,48,'excited',false)}<div style="font-size:13px;color:var(--ink)">${d.feedback}</div></div>
+        <div style="background:#fff;border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink)">
+          <strong>교정:</strong> ${d.corrected} <button onclick="ttsSpk('${d.corrected.replace(/'/g,"\\'")}');event.stopPropagation()" style="background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--indigo)">🔊</button>
+          <br><span style="font-size:12px;color:var(--inkSoft);margin-top:3px;display:block">💡 ${d.tip}</span>
+        </div>
+      </div>`;
+  }catch(e){document.getElementById('mission-result').innerHTML=errHTML();}
+}
 
-  // 메시지 변환 (Anthropic 형식 → Gemini 형식)
-  let contents=[];
-  if(prompt){
-    // 단일 프롬프트
-    if(sys) contents=[{role:'user',parts:[{text:sys+'\n\n'+prompt}]}];
-    else    contents=[{role:'user',parts:[{text:prompt}]}];
-  } else {
-    // 대화 히스토리
-    if(sys) contents=[{role:'user',parts:[{text:sys}]},{role:'model',parts:[{text:'Understood. I will follow these instructions.'}]}];
-    history.forEach(m=>{
-      contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
-    });
+// ══ 홈 액션 ══
+function waterMascot(){showToast('💧 +5 XP · 콩이가 좋아해요!');fireConfetti();gainXP(5);}
+function openChest(){
+  if((U.chestProgress||0)<5){showToast('📦 활동 '+(U.chestProgress||0)+'/5 · 조금만 더!');return;}
+  fireConfetti();U.chestProgress=1;U.coins+=50;U.gems+=3;U.freezeOwned=(U.freezeOwned||0)+1;
+  showOv('🎁','보물상자 획득! 🎉','오늘의 학습 보상이 도착했어요!',[{icon:'🪙',label:'코인 50'},{icon:'💎',label:'젬 3'},{icon:'⭐',label:'XP 20'},{icon:'🧊',label:'보호권'}],'#FFC93C');
+  gainXP(20);renderHome();
+}
+
+// ══ 콘페티 ══
+function fireConfetti(){
+  const w=document.getElementById('confetti-wrap');w.innerHTML='';
+  const cols=['#6A6CF0','#9B6DF3','#22D3EE','#34D9A4','#FFC93C','#FF6FA5','#FF8A4C'];
+  for(let i=0;i<90;i++){
+    const el=document.createElement('div');const c=cols[i%cols.length];const sz=7+Math.random()*8;const round=Math.random()>.5;
+    el.style.cssText=`position:absolute;top:-20px;left:${Math.random()*100}%;width:${sz}px;height:${round?sz:sz*.5}px;background:${c};border-radius:${round?'50%':'2px'};--drift:${(Math.random()-.5)*160}px;animation:confettiFall ${1.6+Math.random()*1.4}s cubic-bezier(.2,.6,.5,1) ${Math.random()*.25}s forwards;transform:rotate(${Math.random()*360}deg)`;
+    w.appendChild(el);
   }
+  setTimeout(()=>w.innerHTML='',4000);
+}
 
-  const body={
-    contents,
-    generationConfig:{maxOutputTokens:maxTok,temperature:0.7}
-  };
+// ══ 오버레이 ══
+function showOv(icon,title,sub,rewards,accent='#6A6CF0'){
+  const el=document.getElementById('ov-icon');
+  if(typeof icon==='string'&&icon.startsWith('<')){el.innerHTML=icon;}else{el.textContent=icon;}
+  el.style.background=accent;el.style.boxShadow='0 10px 24px '+accent+'66';
+  document.getElementById('ov-title').textContent=title;
+  document.getElementById('ov-sub').textContent=sub;
+  document.getElementById('ov-rewards').innerHTML=rewards.map((r,i)=>`<div class="rw-chip" style="animation:popIn .4s cubic-bezier(.34,1.56,.64,1) ${.15+i*.08}s both"><span style="font-size:26px">${r.icon}</span><span style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;color:var(--ink)">${r.label}</span></div>`).join('');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeOv(){document.getElementById('overlay').classList.remove('show');}
 
-  const resp=await fetch(url,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)
-  });
+// ══ 토스트 ══
+let _tt;
+function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2400);}
+
+// ══ 헬퍼 ══
+function loadingHTML(msg){return`<div style="background:#F7F5FD;border-radius:12px;padding:22px;text-align:center;color:var(--inkSoft)"><div class="thinking" style="font-size:22px"><span>●</span><span>●</span><span>●</span></div><div style="font-family:'Jua',sans-serif;font-size:14px;margin-top:8px">${msg}</div></div>`;}
+function errHTML(){return`<div style="color:var(--coral);font-size:13px;padding:10px">오류가 발생했어요. API 키를 확인하거나 다시 시도해 주세요.</div>`;}
+
+// ══ Gemini API ══
+async function apiCall(prompt,maxTok=800,history=[],sys){
+  const key=getKey();if(!key){go('sc-settings');showToast('API 키를 먼저 입력해 주세요!');throw new Error('no key');}
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
+  let contents=[];
+  if(prompt){contents=sys?[{role:'user',parts:[{text:sys+'\n\n'+prompt}]}]:[{role:'user',parts:[{text:prompt}]}];}
+  else{if(sys)contents=[{role:'user',parts:[{text:sys}]},{role:'model',parts:[{text:'Understood.'}]}];history.forEach(m=>{contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});});}
+  const resp=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents,generationConfig:{maxOutputTokens:maxTok,temperature:.7}})});
   const data=await resp.json();
-  if(data.error){throw new Error(data.error.message);}
+  if(data.error)throw new Error(data.error.message);
   return data.candidates[0].content.parts[0].text;
 }
 
-// ── 인증 함수 (Supabase Auth) ──
+// ══ 인증 ══
 function switchTab(t){
   document.getElementById('login-form').style.display=t==='login'?'block':'none';
   document.getElementById('signup-form').style.display=t==='signup'?'block':'none';
   document.getElementById('tab-login').classList.toggle('on',t==='login');
   document.getElementById('tab-signup').classList.toggle('on',t==='signup');
 }
-
 async function doSignup(){
   const email=document.getElementById('signup-email').value.trim();
   const pw=document.getElementById('signup-pw').value;
   const nick=document.getElementById('signup-nick').value.trim();
   const msg=document.getElementById('signup-msg');
-  if(!email||!pw||!nick){msg.style.color='var(--red)';msg.textContent='모든 항목을 입력해 주세요.';return;}
-  if(pw.length<6){msg.style.color='var(--red)';msg.textContent='비밀번호는 6자 이상이어야 해요.';return;}
-  msg.style.color='var(--text-sub)';msg.textContent='가입 중...';
+  if(!email||!pw||!nick){msg.style.color='var(--coral)';msg.textContent='모든 항목을 입력해 주세요.';return;}
+  msg.style.color='var(--inkSoft)';msg.textContent='가입 중...';
   try{
-    const r=await fetch(SB_URL+'/auth/v1/signup',{
-      method:'POST',
-      headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email,password:pw})
-    });
+    const r=await fetch(SB_URL+'/auth/v1/signup',{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password:pw})});
     const d=await r.json();
-    if(d.error){msg.style.color='var(--red)';msg.textContent=d.error.message;return;}
-    // users 테이블에 닉네임 저장
-    if(d.user){
-      await sbFetch('users','POST',{id:d.user.id,email,nickname:nick});
-      setUID(d.user.id);
-      if(d.session)setUToken(d.session.access_token);
-    }
-    msg.style.color='var(--green)';msg.textContent='✅ 가입 완료! 이메일 인증 후 로그인해 주세요.';
-  }catch(e){msg.style.color='var(--red)';msg.textContent='오류가 발생했어요.';}
+    if(d.error){msg.style.color='var(--coral)';msg.textContent=d.error.message;return;}
+    if(d.user){await sbFetch('users','POST',{id:d.user.id,email,nickname:nick});setUID(d.user.id);if(d.session)setUTok(d.session.access_token);U.nickname=nick;}
+    msg.style.color='var(--mint)';msg.textContent='✅ 가입 완료! 로그인해 주세요.';
+  }catch(e){msg.style.color='var(--coral)';msg.textContent='오류가 발생했어요.';}
 }
-
 async function doLogin(){
   const email=document.getElementById('login-email').value.trim();
   const pw=document.getElementById('login-pw').value;
   const msg=document.getElementById('login-msg');
-  if(!email||!pw){msg.style.color='var(--red)';msg.textContent='이메일과 비밀번호를 입력해 주세요.';return;}
-  msg.style.color='var(--text-sub)';msg.textContent='로그인 중...';
+  if(!email||!pw){msg.style.color='var(--coral)';msg.textContent='이메일과 비밀번호를 입력해 주세요.';return;}
+  msg.style.color='var(--inkSoft)';msg.textContent='로그인 중...';
   try{
-    const r=await fetch(SB_URL+'/auth/v1/token?grant_type=password',{
-      method:'POST',
-      headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email,password:pw})
-    });
+    const r=await fetch(SB_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password:pw})});
     const d=await r.json();
-    if(d.error){msg.style.color='var(--red)';msg.textContent=d.error.message||'로그인 실패';return;}
-    setUID(d.user.id);
-    setUToken(d.access_token);
-    msg.style.color='var(--green)';msg.textContent='✅ 로그인 성공!';
-    setTimeout(async()=>{
-      await loadGeminiKey();
-      await DB.syncFromServer();
-      go('sc-home');
-    },800);
-  }catch(e){msg.style.color='var(--red)';msg.textContent='오류가 발생했어요.';}
+    if(d.error){msg.style.color='var(--coral)';msg.textContent=d.error.message||'로그인 실패';return;}
+    setUID(d.user.id);setUTok(d.access_token);
+    U.name=d.user.email.split('@')[0];
+    try{const u=await sbFetch('users?id=eq.'+d.user.id+'&select=nickname');if(u&&u.length&&u[0].nickname)U.nickname=u[0].nickname;}catch(e){}
+    msg.style.color='var(--mint)';msg.textContent='✅ 로그인 성공!';
+    await loadKey();
+    setTimeout(async()=>{await DB.sync();go('sc-home');},800);
+  }catch(e){msg.style.color='var(--coral)';msg.textContent='오류가 발생했어요.';}
 }
-
 async function doLogout(){
   if(!confirm('로그아웃 할까요?'))return;
-  try{
-    await fetch(SB_URL+'/auth/v1/logout',{
-      method:'POST',
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+getUToken()}
-    });
-  }catch(e){}
-  localStorage.removeItem('enggo_uid');
-  localStorage.removeItem('enggo_token');
-  toast('로그아웃 됐어요');
-  setTimeout(()=>go('sc-login'),600);
+  try{await fetch(SB_URL+'/auth/v1/logout',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+getUTok()}});}catch(e){}
+  localStorage.removeItem('enggo_uid');localStorage.removeItem('enggo_token');
+  showToast('로그아웃 됐어요');setTimeout(()=>go('sc-login'),600);
 }
 
-function renderUserInfo(){
+// ══ 설정 ══
+function saveApiKey(){const v=document.getElementById('api-key-input').value.trim();if(!v){document.getElementById('key-status').innerHTML='<span style="color:var(--coral)">키를 입력해 주세요.</span>';return;}setKey(v);document.getElementById('api-key-input').value='';document.getElementById('key-status').innerHTML='<span style="color:var(--mint)">✅ 저장 완료!</span>';renderKeyInfo();setTimeout(()=>go('sc-home'),1000);}
+function clearApiKey(){if(!confirm('저장된 API 키를 삭제할까요?'))return;localStorage.removeItem('enggo_apikey');_key='';renderKeyInfo();showToast('키 삭제 완료');}
+function renderKeyInfo(){const k=getKey(),el=document.getElementById('key-saved-info');if(!el)return;el.innerHTML=k?'✅ 키 저장됨: '+k.substring(0,6)+'...'+k.slice(-4):'❌ 저장된 키 없음';}
+function renderUserInfo(){const el=document.getElementById('user-info');if(!el)return;const uid=getUID();el.innerHTML=uid?'✅ 로그인 중: '+uid.substring(0,8)+'...':'❌ 로그인 안 됨';}
+
+// ══ PWA ══
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js').catch(()=>{}));
+
+// ══ 초기화 ══
+(async function init(){
+  document.getElementById('login-mascot').innerHTML=mascotSVG(1,120,'happy',true);
+  initWriteTopics();initChatTopics();
+  await loadKey();
   const uid=getUID();
-  const el=document.getElementById('user-info');
-  if(!el)return;
-  if(uid){el.innerHTML='✅ 로그인 중 <code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:11px">'+uid.substring(0,8)+'...</code>';}
-  else{el.innerHTML='❌ 로그인 안 됨 — 데이터가 이 기기에만 저장돼요';}
-}
-
-// ── 설정 화면 함수 ──
-function saveApiKey(){
-  const val=document.getElementById('api-key-input').value.trim();
-  if(!val){document.getElementById('key-status').innerHTML='<span style="color:var(--red)">키를 입력해 주세요.</span>';return;}
-  // 키 형식 검증 없음 (다양한 형식 허용)
-  setApiKey(val);
-  document.getElementById('api-key-input').value='';
-  document.getElementById('key-status').innerHTML='<span style="color:var(--green)">✅ 저장 완료! 이제 AI 기능을 사용할 수 있어요.</span>';
-  renderKeyInfo();
-  setTimeout(()=>go('sc-home'),1200);
-}
-function clearApiKey(){
-  if(!confirm('저장된 API 키를 삭제할까요?'))return;
-  localStorage.removeItem('enggo_apikey');
-  renderKeyInfo();
-  toast('API 키 삭제 완료');
-}
-function renderKeyInfo(){
-  const k=getApiKey(),el=document.getElementById('key-saved-info');
-  if(!el)return;
-  if(k){el.innerHTML='✅ 키 저장됨: <code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px">'+k.substring(0,6)+'...'+k.slice(-4)+'</code>';}
-  else{el.innerHTML='❌ 저장된 키 없음 — AI 기능을 사용하려면 키를 입력해 주세요.';}
-}
-
-updateUI();loadCard(0);
-
-// ── 앱 시작 시 API 키 체크 ──
-window.addEventListener('load',()=>{
-  // Gemini 키 먼저 자동 로드
-  loadGeminiKey().then(key=>{
-    setTimeout(()=>{
-      if(!getUID()){
-        // 로그인 안 된 경우 → 로그인 화면
-        document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
-        document.getElementById('sc-login').classList.add('on');
-        document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-      } else {
-        // 로그인 됨 → 서버 동기화 후 홈
-        DB.syncFromServer();
-      }
-    },400);
-  });
-});
-
-// ── sc-settings 진입 시 키 정보 렌더 (go 함수 패치) ──
-const _go=go;
-function go(id){
-  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  const NM2={'sc-home':'ni-home','sc-quiz':'ni-quiz','sc-chat':'ni-chat','sc-odam':'ni-odam','sc-stats':'ni-stats','sc-settings':'ni-settings'};
-  if(NM2[id])document.getElementById(NM2[id]).classList.add('on');
-  if(id==='sc-odam')renderOdam();
-  if(id==='sc-stats')renderStats();
-  if(id==='sc-settings'){renderKeyInfo();renderUserInfo();}
-  if(id==='sc-login'){}
-  window.scrollTo(0,0);
-}
-
-// ── PWA Service Worker 등록 ──
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg=>console.log('[PWA] Service Worker 등록 완료:', reg.scope))
-      .catch(err=>console.log('[PWA] Service Worker 등록 실패:', err));
-  });
-}
+  if(!uid){go('sc-login');return;}
+  try{const u=await sbFetch('users?id=eq.'+uid+'&select=nickname');if(u&&u[0]?.nickname)U.nickname=u[0].nickname;}catch(e){}
+  U.xp=DB.xp();
+  go('sc-home');
+  DB.sync();
+})();
 </script>
 </body>
 </html>
