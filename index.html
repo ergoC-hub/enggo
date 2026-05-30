@@ -388,7 +388,7 @@ textarea:focus{border-color:var(--primary)}
   <div class="ps">API 키는 내 브라우저에만 저장돼요. GitHub에 올라가지 않아요.</div>
   <div style="background:var(--amber-bg);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--amber);line-height:1.6">🔑 <strong>Gemini API 키</strong>가 필요해요.<br><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--primary)">aistudio.google.com</a> 에서 무료로 발급받을 수 있어요.</div>
   <div class="sec">API 키 입력</div>
-  <input id="api-key-input" type="password" placeholder="AIza..." style="width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:14px;font-family:Pretendard,sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:10px">
+  <input id="api-key-input" type="password" placeholder="API 키를 입력하세요..." style="width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;font-size:14px;font-family:Pretendard,sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:10px">
   <button class="btn-p" onclick="saveApiKey()">저장하기 💾</button>
   <div id="key-status" style="margin-top:10px;font-size:13px"></div>
   <div class="divider" style="margin:20px 0"></div>
@@ -742,7 +742,7 @@ async function apiCall(prompt,maxTok=800,history=[],sys){
 function saveApiKey(){
   const val=document.getElementById('api-key-input').value.trim();
   if(!val){document.getElementById('key-status').innerHTML='<span style="color:var(--red)">키를 입력해 주세요.</span>';return;}
-  if(!val.startsWith('AIza')){document.getElementById('key-status').innerHTML='<span style="color:var(--red)">올바른 키 형식이 아니에요 (AIza로 시작).</span>';return;}
+  // 키 형식 검증 없음 (다양한 형식 허용)
   setApiKey(val);
   document.getElementById('api-key-input').value='';
   document.getElementById('key-status').innerHTML='<span style="color:var(--green)">✅ 저장 완료! 이제 AI 기능을 사용할 수 있어요.</span>';
@@ -758,7 +758,7 @@ function clearApiKey(){
 function renderKeyInfo(){
   const k=getApiKey(),el=document.getElementById('key-saved-info');
   if(!el)return;
-  if(k){el.innerHTML='✅ 키 저장됨: <code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px">AIza...'+k.slice(-6)+'</code>';}
+  if(k){el.innerHTML='✅ 키 저장됨: <code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px">'+k.substring(0,6)+'...'+k.slice(-4)+'</code>';}
   else{el.innerHTML='❌ 저장된 키 없음 — AI 기능을 사용하려면 키를 입력해 주세요.';}
 }
 
