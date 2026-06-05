@@ -326,7 +326,7 @@ textarea:focus,input:focus{border-color:var(--indigo)}
     </div>
     <div id="rank-podium" class="podium-wrap"></div>
     <div id="rank-list" style="margin-top:16px"></div>
-    <div style="margin-top:14px;padding:14px;background:linear-gradient(135deg,#EEF0FF,#F4EBFF);border-radius:16px;text-align:center;font-family:'Jua',sans-serif;font-size:14px;color:var(--indigoDeep)">🎯 3위까지 130 XP 남았어요!</div>
+    <div id="rank-banner" style="margin-top:14px;padding:14px;background:linear-gradient(135deg,#EEF0FF,#F4EBFF);border-radius:16px;text-align:center;font-family:'Jua',sans-serif;font-size:14px;color:var(--indigoDeep)">🚀 열심히 학습하면 순위가 올라가요!</div>
   </div>
 </div>
 
@@ -695,24 +695,87 @@ function renderHome(){
     </div>`).join('');
 }
 
-function renderRank(){
-  const top3=LEADERBOARD.slice(0,3);
-  const ord=[top3[1],top3[0],top3[2]];
-  const hs=[72,90,60],meds=['🥈','🥇','🥉'],cols=['#9AA7B8','#FFC93C','#C98A5A'];
-  document.getElementById('rank-podium').innerHTML=ord.map((p,i)=>`
-    <div class="podium-item">
-      <div style="font-size:24px">${meds[i]}</div>
-      <div style="width:${i===1?60:50}px;height:${i===1?60:50}px;border-radius:50%;background:${p.color}22;border:3px solid ${cols[i]};display:flex;align-items:center;justify-content:center;font-size:${i===1?26:22}px">${p.avatar}</div>
-      <div style="font-family:'Jua',sans-serif;font-size:13px;color:var(--ink)">${p.name}</div>
-      <div style="font-family:'Fredoka',sans-serif;font-size:12px;color:var(--inkSoft)">${p.xp.toLocaleString()} XP</div>
-      <div class="podium-base" style="width:${i===1?80:68}px;height:${hs[i]}px;background:${cols[i]}22;border:2px solid ${cols[i]}"></div>
-    </div>`).join('');
-  document.getElementById('rank-list').innerHTML=LEADERBOARD.slice(3).map(p=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);${p.isUser?'background:var(--bg);border-radius:12px;padding:12px;margin:-2px 0':''}">
-      <div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;color:var(--muted);width:24px;text-align:center">${p.rank}</div>
-      <div style="width:42px;height:42px;border-radius:50%;background:${p.color}22;display:flex;align-items:center;justify-content:center;font-size:22px">${p.avatar}</div>
-      <div style="flex:1"><div style="font-family:'Jua',sans-serif;font-size:14px;color:var(--ink)">${p.name}${p.isUser?' <span class="pill" style="font-size:10px;padding:2px 7px">나</span>':''}</div><div style="font-family:'Fredoka',sans-serif;font-size:12px;color:var(--inkSoft)">${p.xp.toLocaleString()} XP</div></div>
-    </div>`).join('');
+// 아바타 이모지 목록 (닉네임 기반으로 일관되게 선택)
+const AVATARS=['🦊','🐰','🐯','🌱','🐻','🐱','🐧','🐹','🦁','🐨','🐸','🐺'];
+function nickToAvatar(nick){let h=0;for(let i=0;i<(nick||'').length;i++)h=(h*31+nick.charCodeAt(i))&0xffff;return AVATARS[h%AVATARS.length];}
+const RANK_COLORS=['#FF8A4C','#9B6DF3','#FFC93C','#34D9A4','#C98A5A','#22B8CF','#6A6CF0','#FF6FA5','#56C66B','#22C3DE'];
+function nickToColor(nick){let h=0;for(let i=0;i<(nick||'').length;i++)h=(h*17+nick.charCodeAt(i))&0xffff;return RANK_COLORS[h%RANK_COLORS.length];}
+
+async function renderRank(){
+  const podiumEl=document.getElementById('rank-podium');
+  const listEl=document.getElementById('rank-list');
+  const bannerEl=document.getElementById('rank-banner');
+
+  // 로딩 표시
+  podiumEl.innerHTML=`<div style="width:100%;text-align:center;padding:30px 0;color:var(--muted);font-family:'Jua',sans-serif">랭킹 불러오는 중...</div>`;
+  listEl.innerHTML='';
+
+  try{
+    // Supabase ranking 뷰에서 실시간 데이터 조회
+    const data=await sbFetch('ranking?select=id,nickname,total_xp,rank&order=rank.asc&limit=20');
+
+    if(!data||!data.length){
+      podiumEl.innerHTML=`<div style="width:100%;text-align:center;padding:40px 0;color:var(--muted);font-family:'Jua',sans-serif">아직 랭킹 데이터가 없어요<br>학습을 시작해보세요! 🚀</div>`;
+      return;
+    }
+
+    const uid=getUID();
+    // 데이터 가공
+    const players=data.map(p=>({
+      rank:Number(p.rank),
+      name:p.nickname||'익명',
+      xp:Number(p.total_xp)||0,
+      avatar:nickToAvatar(p.nickname||''),
+      color:nickToColor(p.nickname||''),
+      isUser:p.id===uid
+    }));
+
+    const myPlayer=players.find(p=>p.isUser);
+    const top3=players.slice(0,3);
+    const rest=players.slice(3);
+
+    // 포디움 (2-1-3 순서)
+    const hs=[72,90,60],meds=['🥈','🥇','🥉'],cols=['#9AA7B8','#FFC93C','#C98A5A'];
+    const ord=top3.length>=3?[top3[1],top3[0],top3[2]]:top3.length===2?[top3[1],top3[0]]:top3;
+    podiumEl.innerHTML=ord.map((p,i)=>`
+      <div class="podium-item">
+        <div style="font-size:24px">${meds[i]}</div>
+        <div style="width:${i===1?60:50}px;height:${i===1?60:50}px;border-radius:50%;background:${p.color}22;border:3px solid ${cols[i]};display:flex;align-items:center;justify-content:center;font-size:${i===1?26:22}px;position:relative">
+          ${p.avatar}${p.isUser?'<div style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--indigo);display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff">나</div>':''}
+        </div>
+        <div style="font-family:\'Jua\',sans-serif;font-size:13px;color:var(--ink)">${p.name}</div>
+        <div style="font-family:\'Fredoka\',sans-serif;font-size:12px;color:var(--inkSoft)">${p.xp.toLocaleString()} XP</div>
+        <div class="podium-base" style="width:${i===1?80:68}px;height:${hs[i]}px;background:${cols[i]}22;border:2px solid ${cols[i]}"></div>
+      </div>`).join('');
+
+    // 나머지 순위
+    listEl.innerHTML=rest.map(p=>`
+      <div style="display:flex;align-items:center;gap:12px;padding:${p.isUser?'12px':'12px 0'};border-bottom:1px solid var(--line);${p.isUser?'background:var(--primary-light,#EEF0FF);border-radius:12px;margin:4px 0;padding:12px':''}">
+        <div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;color:var(--muted);width:24px;text-align:center">${p.rank}</div>
+        <div style="width:42px;height:42px;border-radius:50%;background:${p.color}22;display:flex;align-items:center;justify-content:center;font-size:22px">${p.avatar}</div>
+        <div style="flex:1">
+          <div style="font-family:'Jua',sans-serif;font-size:14px;color:var(--ink)">${p.name}${p.isUser?' <span class="pill" style="font-size:10px;padding:2px 7px;background:var(--indigo);color:#fff">나</span>':''}</div>
+          <div style="font-family:'Fredoka',sans-serif;font-size:12px;color:var(--inkSoft)">${p.xp.toLocaleString()} XP</div>
+        </div>
+      </div>`).join('');
+
+    // 격려 배너 업데이트
+    if(bannerEl&&myPlayer){
+      const above=players.find(p=>p.rank===myPlayer.rank-1);
+      if(above){
+        const diff=above.xp-myPlayer.xp;
+        bannerEl.textContent=`🎯 ${above.name}님까지 ${diff.toLocaleString()} XP 남았어요!`;
+      } else if(myPlayer.rank===1){
+        bannerEl.textContent='🏆 현재 1위예요! 계속 달려봐요!';
+      } else {
+        bannerEl.textContent='🚀 열심히 학습하면 순위가 올라가요!';
+      }
+    }
+
+  }catch(e){
+    console.error('[rank]',e);
+    podiumEl.innerHTML=`<div style="width:100%;text-align:center;padding:30px 0;color:var(--muted);font-family:'Jua',sans-serif">랭킹을 불러올 수 없어요</div>`;
+  }
 }
 
 function renderBadge(){
