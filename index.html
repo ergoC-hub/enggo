@@ -200,22 +200,24 @@ textarea:focus,input:focus{border-color:var(--indigo)}
       <div class="fc-inner" id="fc-inner">
         <div class="fc-face fc-front">
           <span class="pill" style="background:#F1EFFD;color:var(--purple)" id="fc-pos-pill">형용사</span>
-          <div style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:46px;color:var(--ink);margin:16px 0 10px" id="fc-word">happy</div>
+          <div style="font-family:'Jua',sans-serif;font-size:32px;color:var(--ink);margin:16px 0 8px" id="fc-meaning-f">행복한, 기쁜</div>
           <div style="font-size:14px;color:var(--inkSoft)" id="fc-hint">💡 힌트: 기쁨을 느끼는</div>
-          <div style="display:flex;gap:8px;margin-top:22px">
-            <button class="btn-g" style="font-size:13.5px;padding:8px 14px" onclick="ttsPlay('word');event.stopPropagation()">🔊 단어</button>
-            <button class="btn-g" style="font-size:13.5px;padding:8px 14px" onclick="ttsPlay('ex');event.stopPropagation()">🔊 예문</button>
-          </div>
-          <div style="position:absolute;bottom:18px;font-size:12.5px;color:var(--muted);font-family:'Jua',sans-serif">👆 탭해서 뜻 확인</div>
+          <input id="quiz-input" type="text" placeholder="영어 단어 입력" autocomplete="off" autocapitalize="off" spellcheck="false" style="margin-top:20px;max-width:240px;text-align:center;font-family:'Fredoka',sans-serif;font-size:18px" onclick="event.stopPropagation()" onkeydown="if(event.key==='Enter'){event.preventDefault();checkAns();}">
+          <div id="quiz-feedback" style="min-height:22px;font-size:13.5px;margin-top:10px;font-family:'Jua',sans-serif;color:var(--coral)"></div>
+          <div style="position:absolute;bottom:18px;font-size:12.5px;color:var(--muted);font-family:'Jua',sans-serif">⌨️ 뜻을 보고 영어 단어를 입력해요</div>
         </div>
         <div class="fc-face fc-back">
-          <div style="font-family:'Fredoka',sans-serif;font-size:30px;opacity:.85" id="fc-word-b">happy</div>
-          <div style="font-family:'Jua',sans-serif;font-size:30px;margin:8px 0 18px" id="fc-meaning">행복한, 기쁜</div>
+          <div style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:38px" id="fc-word-b">happy</div>
+          <div style="font-family:'Jua',sans-serif;font-size:24px;margin:8px 0 16px" id="fc-meaning">행복한, 기쁜</div>
           <div style="background:rgba(255,255,255,.16);border-radius:16px;padding:14px 16px">
             <div style="font-family:'Fredoka',sans-serif;font-size:16px;line-height:1.4" id="fc-ex">"She was happy."</div>
             <div style="font-size:13px;opacity:.85;margin-top:8px" id="fc-ex-kr">그녀는 행복했다.</div>
           </div>
-          <div style="position:absolute;bottom:18px;font-size:12.5px;opacity:.8;font-family:'Jua',sans-serif">👆 다시 탭하면 단어로</div>
+          <div style="display:flex;gap:8px;margin-top:16px">
+            <button class="btn-g" style="font-size:13.5px;padding:8px 14px;background:rgba(255,255,255,.92)" onclick="ttsPlay('word');event.stopPropagation()">🔊 단어</button>
+            <button class="btn-g" style="font-size:13.5px;padding:8px 14px;background:rgba(255,255,255,.92)" onclick="ttsPlay('ex');event.stopPropagation()">🔊 예문</button>
+          </div>
+          <div style="position:absolute;bottom:18px;font-size:12.5px;opacity:.8;font-family:'Jua',sans-serif">👆 탭하면 문제로 돌아가요</div>
         </div>
       </div>
     </div>
@@ -225,9 +227,12 @@ textarea:focus,input:focus{border-color:var(--indigo)}
       <button class="btn-g" style="font-size:11px;padding:3px 8px;border-radius:12px;border-color:var(--indigo);color:var(--indigo)" onclick="setSpd(0.9,this)">보통</button>
       <button class="btn-g" style="font-size:11px;padding:3px 8px;border-radius:12px" onclick="setSpd(1.2,this)">빠르게</button>
     </div>
-    <div style="display:flex;gap:10px;margin-top:14px">
-      <button class="btn-p" style="background:#F0EDFA;box-shadow:0 6px 0 #D9D3EC;color:var(--inkSoft)" onclick="quizAns(false)">😓 몰랐어</button>
-      <button class="btn-p" style="background:var(--mint);box-shadow:0 6px 0 rgba(38,176,134,.5)" onclick="quizAns(true)">🎉 알았어!</button>
+    <div style="display:flex;gap:10px;margin-top:14px" id="quiz-btns">
+      <button class="btn-p" style="background:#F0EDFA;box-shadow:0 6px 0 #D9D3EC;color:var(--inkSoft)" onclick="revealAns()">👀 모르겠어</button>
+      <button class="btn-p" style="background:var(--mint);box-shadow:0 6px 0 rgba(38,176,134,.5)" onclick="checkAns()">정답 확인 ✅</button>
+    </div>
+    <div id="quiz-next" style="display:none;margin-top:14px">
+      <button class="btn-p" onclick="nextCard()">다음 단어 ➡️</button>
     </div>
   </div>
 </div>
@@ -404,7 +409,7 @@ textarea:focus,input:focus{border-color:var(--indigo)}
     <div style="flex:1;font-family:'Jua',sans-serif;font-size:21px;color:var(--ink)">설정 ⚙️</div>
   </div>
   <div style="padding:0 16px 16px">
-    <div style="background:#FFFBEB;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#92680A;line-height:1.6">✅ <strong>Gemini API 키</strong>는 자동으로 로드돼요. 개인 키가 있다면 아래에 입력해 덮어쓸 수 있어요.</div>
+    <div style="background:#FFFBEB;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#92680A;line-height:1.6">✅ AI 호출은 기본적으로 <strong>서버(프록시)</strong>를 통해 안전하게 처리돼요. 개인 Gemini 키가 있다면 아래에 입력해 직접 호출할 수도 있어요. (키는 이 기기에만 저장)</div>
     <input id="api-key-input" type="password" placeholder="API 키를 입력하세요..." style="margin-bottom:10px">
     <button class="btn-p" onclick="saveApiKey()">저장하기 💾</button>
     <div id="key-status" style="margin-top:10px;font-size:13px;min-height:20px"></div>
@@ -550,7 +555,9 @@ const U={name:'학습자',nickname:'콩이',stage:1,level:1,xp:0,xpToNext:100,co
 const SB_URL='https://bnuwwjpvkkpiewrlduws.supabase.co';
 const SB_KEY='sb_publishable_bWX0a-p0B2Zo8TMl8yD9fA_gfHnWWyA';
 async function sbFetch(path,method='GET',body=null){
-  const opts={method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'}};
+  // 로그인한 경우 사용자 토큰으로 호출 → RLS(auth.uid()) 정책이 제대로 동작
+  const tok=getUTok()||SB_KEY;
+  const opts={method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+tok,'Content-Type':'application/json','Prefer':'return=representation'}};
   if(body)opts.body=JSON.stringify(body);
   const r=await fetch(SB_URL+'/rest/v1/'+path,opts);
   if(!r.ok)return null;return r.status===204?null:r.json();
@@ -588,11 +595,10 @@ const DB={
   }
 };
 
-// ══ Gemini 키 ══
+// ══ Gemini 키 (개인 키 — 선택 사항) ══
+// 보안: 공유 키를 서버(app_config 테이블)에서 내려받는 방식은 키가 모든 사용자에게
+// 노출되므로 제거했습니다. 기본 호출은 Supabase Edge Function 프록시를 사용합니다.
 let _key=localStorage.getItem('enggo_apikey')||'';
-async function loadKey(){
-  try{const r=await fetch(SB_URL+'/rest/v1/app_config?key=eq.gemini_api_key&select=value',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});const d=await r.json();if(d&&d.length&&d[0].value){_key=d[0].value;localStorage.setItem('enggo_apikey',_key);}}catch(e){}return _key;
-}
 function getKey(){return _key||localStorage.getItem('enggo_apikey')||'';}
 function setKey(k){_key=k.trim();localStorage.setItem('enggo_apikey',k.trim());}
 
@@ -845,13 +851,14 @@ function renderProfile(){
   ].map(([v,l])=>`<div style="text-align:center"><div style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:20px;color:var(--indigo)">${v}</div><div style="font-size:11px;color:var(--inkSoft)">${l}</div></div>`).join('');
 }
 
-// ══ 퀴즈 ══
-let qLv='초급',qIdx=0,qFlipped=false,qKnown=0,tSpd=0.9;
-function setQuizLv(lv,el){qLv=lv;qIdx=0;qFlipped=false;qKnown=0;document.querySelectorAll('#quiz-level-tabs .seg-tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');loadCard();}
+// ══ 퀴즈 (정답 입력 방식 — 맞혀야만 XP 지급) ══
+let qLv='초급',qIdx=0,qKnown=0,qAnswered=false,qTries=0,tSpd=0.9;
+function curWord(){const ws=WORD_LEVELS[qLv];return ws[qIdx%ws.length];}
+function setQuizLv(lv,el){qLv=lv;qIdx=0;qKnown=0;document.querySelectorAll('#quiz-level-tabs .seg-tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');loadCard();}
 function loadCard(){
-  const ws=WORD_LEVELS[qLv];const w=ws[qIdx%ws.length];
+  const ws=WORD_LEVELS[qLv];const w=curWord();
   document.getElementById('fc-pos-pill').textContent=w.pos+' · '+w.posKr;
-  document.getElementById('fc-word').textContent=w.word;
+  document.getElementById('fc-meaning-f').textContent=w.meaning;
   document.getElementById('fc-hint').textContent='💡 힌트: '+w.hint;
   document.getElementById('fc-word-b').textContent=w.word;
   document.getElementById('fc-meaning').textContent=w.meaning;
@@ -860,16 +867,46 @@ function loadCard(){
   document.getElementById('fc-inner').classList.remove('flipped');
   document.getElementById('quiz-pill').textContent=(qIdx%ws.length+1)+' / '+ws.length;
   document.getElementById('quiz-dots').innerHTML=ws.map((_,i)=>`<div style="flex:1;height:6px;border-radius:999px;background:${i<qIdx%ws.length?'var(--mint)':i===qIdx%ws.length?'var(--indigo)':'#E6E2F5'}"></div>`).join('');
-  qFlipped=false;
+  const inp=document.getElementById('quiz-input');inp.value='';inp.disabled=false;
+  document.getElementById('quiz-feedback').textContent='';
+  document.getElementById('quiz-btns').style.display='flex';
+  document.getElementById('quiz-next').style.display='none';
+  qAnswered=false;qTries=0;
 }
-function flipCard(){if(!qFlipped){document.getElementById('fc-inner').classList.add('flipped');qFlipped=true;ttsPlay('word');}}
-function quizAns(knew){
-  const ws=WORD_LEVELS[qLv];const w=ws[qIdx%ws.length];
-  if(!knew)DB.addWW(w);else{gainXP(5,'quiz');qKnown++;}
-  qIdx++;if(qIdx>=ws.length){showToast('🎉 퀴즈 완료! +'+qKnown*4+'XP');gainXP(qKnown*4+10,'quiz');qIdx=0;qKnown=0;}
+// 정답 확인 전에는 카드를 뒤집을 수 없음 (답 미리보기 방지)
+function flipCard(){if(qAnswered)document.getElementById('fc-inner').classList.toggle('flipped');}
+function normAns(s){return (s||'').trim().toLowerCase().replace(/[^a-z]/g,'');}
+function finishCard(correct){
+  qAnswered=true;
+  document.getElementById('quiz-input').disabled=true;
+  document.getElementById('fc-inner').classList.add('flipped');
+  document.getElementById('quiz-btns').style.display='none';
+  document.getElementById('quiz-next').style.display='block';
+  ttsPlay('word');
+  if(correct){qKnown++;gainXP(5,'quiz');showToast('🎉 정답! +5 XP');}
+  else{DB.addWW(curWord());showToast('📒 오답노트에 저장했어요');}
+}
+function checkAns(){
+  if(qAnswered)return;
+  const w=curWord(),v=normAns(document.getElementById('quiz-input').value);
+  if(!v){showToast('영어 단어를 입력해 주세요!');return;}
+  if(v===normAns(w.word)){
+    document.getElementById('quiz-feedback').innerHTML='<span style="color:var(--mint)">⭕ 정답이에요!</span>';
+    finishCard(true);
+  }else{
+    qTries++;
+    document.getElementById('quiz-feedback').textContent=qTries>=2?'🙅 아쉬워요! 첫 글자는 "'+w.word[0]+'" 예요':'🙅 다시 한번 생각해 보세요!';
+  }
+}
+function revealAns(){if(qAnswered)return;document.getElementById('quiz-feedback').textContent='';finishCard(false);}
+function nextCard(){
+  if(!qAnswered)return;
+  const ws=WORD_LEVELS[qLv];
+  qIdx++;
+  if(qIdx>=ws.length){showToast('🎉 퀴즈 완료! 보너스 +'+(qKnown*4+10)+'XP');gainXP(qKnown*4+10,'quiz');qIdx=0;qKnown=0;}
   loadCard();
 }
-function ttsPlay(t){const w=document.getElementById('fc-word').textContent;const ex=document.getElementById('fc-ex').textContent.replace(/"/g,'');ttsSpk(t==='word'?w:ex);}
+function ttsPlay(t){const w=curWord();ttsSpk(t==='word'?w.word:w.ex);}
 function ttsSpk(text){if(!window.speechSynthesis)return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=tSpd;window.speechSynthesis.speak(u);}
 function setSpd(v){tSpd=v;}
 
@@ -1074,14 +1111,44 @@ function showToast(msg){const el=document.getElementById('toast');el.textContent
 function loadingHTML(msg){return`<div style="background:#F7F5FD;border-radius:12px;padding:22px;text-align:center;color:var(--inkSoft)"><div class="thinking" style="font-size:22px"><span>●</span><span>●</span><span>●</span></div><div style="font-family:'Jua',sans-serif;font-size:14px;margin-top:8px">${msg}</div></div>`;}
 function errHTML(){return`<div style="color:var(--coral);font-size:13px;padding:10px">오류가 발생했어요. API 키를 확인하거나 다시 시도해 주세요.</div>`;}
 
-// ══ Gemini API ══
+// ══ Gemini API (프록시 우선 + 무료 한도 보호) ══
+const AI_PROXY_URL=SB_URL+'/functions/v1/gemini-proxy'; // Supabase Edge Function (키는 서버에만 보관)
+const GEMINI_MODEL='gemini-2.5-flash-lite'; // 무료 등급 일일 한도가 가장 넉넉한 모델
+const AI_MIN_INTERVAL=4000;  // 호출 최소 간격 (무료 분당 한도 보호)
+const AI_DAILY_MAX=40;       // 1인 일일 호출 한도 (무료 일일 한도 보호)
+let _lastAI=0;
+function aiQuotaOk(){
+  const d=td(),q=DB.g('aiq')||{};
+  if(q.d!==d){q.d=d;q.n=0;}
+  if(q.n>=AI_DAILY_MAX)return false;
+  q.n++;DB.s('aiq',q);return true;
+}
 async function apiCall(prompt,maxTok=800,history=[],sys){
-  const key=getKey();if(!key){go('sc-settings');showToast('API 키를 먼저 입력해 주세요!');throw new Error('no key');}
-  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
+  const now=Date.now();
+  if(now-_lastAI<AI_MIN_INTERVAL){showToast('⏳ 잠깐만요! 너무 빨라요');throw new Error('rate limit');}
+  if(!aiQuotaOk()){showToast('오늘 AI 사용량을 다 썼어요. 내일 만나요! 🌙');throw new Error('daily quota');}
+  _lastAI=now;
   let contents=[];
   if(prompt){contents=sys?[{role:'user',parts:[{text:sys+'\n\n'+prompt}]}]:[{role:'user',parts:[{text:prompt}]}];}
   else{if(sys)contents=[{role:'user',parts:[{text:sys}]},{role:'model',parts:[{text:'Understood.'}]}];history.forEach(m=>{contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});});}
-  const resp=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents,generationConfig:{maxOutputTokens:maxTok,temperature:.7}})});
+  const body=JSON.stringify({model:GEMINI_MODEL,contents,generationConfig:{maxOutputTokens:maxTok,temperature:.7}});
+  // 1) 프록시 호출 (권장 — API 키가 서버에만 있음)
+  try{
+    const resp=await fetch(AI_PROXY_URL,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+(getUTok()||SB_KEY)},body});
+    if(resp.ok){
+      const data=await resp.json();
+      return data.candidates[0].content.parts[0].text;
+    }
+    if(resp.status===429){showToast('지금은 요청이 많아요. 잠시 후 다시!');throw new Error('server quota');}
+  }catch(e){
+    if(e.message==='server quota')throw e;
+    // 프록시 미배포/네트워크 오류 → 개인 키 폴백 시도
+  }
+  // 2) 개인 키 폴백 (설정 화면에서 입력한 경우)
+  const key=getKey();
+  if(!key){go('sc-settings');showToast('AI 서버 연결 실패 — 개인 API 키를 입력해 주세요');throw new Error('no key');}
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+  const resp=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents,generationConfig:{maxOutputTokens:maxTok,temperature:.7}})});
   const data=await resp.json();
   if(data.error)throw new Error(data.error.message);
   return data.candidates[0].content.parts[0].text;
@@ -1123,7 +1190,6 @@ async function doLogin(){
     U.name=d.user.email.split('@')[0];
     try{const u=await sbFetch('users?id=eq.'+d.user.id+'&select=nickname');if(u&&u.length&&u[0].nickname)U.nickname=u[0].nickname;}catch(e){}
     msg.style.color='var(--mint)';msg.textContent='✅ 로그인 성공!';
-    await loadKey();
     setTimeout(async()=>{await DB.sync();go('sc-home');},800);
   }catch(e){msg.style.color='var(--coral)';msg.textContent='오류가 발생했어요.';}
 }
@@ -1141,13 +1207,12 @@ function renderKeyInfo(){const k=getKey(),el=document.getElementById('key-saved-
 function renderUserInfo(){const el=document.getElementById('user-info');if(!el)return;const uid=getUID();el.innerHTML=uid?'✅ 로그인 중: '+uid.substring(0,8)+'...':'❌ 로그인 안 됨';}
 
 // ══ PWA ══
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js').catch(()=>{}));
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
 
 // ══ 초기화 ══
 (async function init(){
   document.getElementById('login-mascot').innerHTML=mascotSVG(1,120,'happy',true);
   initWriteTopics();initChatTopics();
-  await loadKey();
   const uid=getUID();
   if(!uid){go('sc-login');return;}
   try{const u=await sbFetch('users?id=eq.'+uid+'&select=nickname');if(u&&u[0]?.nickname)U.nickname=u[0].nickname;}catch(e){}
