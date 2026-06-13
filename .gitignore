@@ -1,0 +1,5 @@
+# 절대 올리면 안 되는 파일
+supabase.com password.txt
+
+# 옛 버전 (유출된 키 자리표시자가 있던 폴더) - 새 배포에는 불필요
+enggo-pwa/
