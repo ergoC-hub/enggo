@@ -1,9 +1,6 @@
 // EngGo — Gemini API 프록시 (Supabase Edge Function)
 // 역할: Gemini API 키를 서버에만 보관하고, 로그인한 사용자의 요청만 대신 호출해 줌.
 //       1인당 일일 호출 한도를 적용해 무료 등급 한도를 보호함.
-//
-// 배포: supabase functions deploy gemini-proxy
-// 키 등록: supabase secrets set GEMINI_API_KEY=새로_발급받은_키
 
 import { createClient } from "npm:@supabase/supabase-js@2";
 

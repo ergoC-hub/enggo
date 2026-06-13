@@ -556,6 +556,7 @@ const SB_URL='https://bnuwwjpvkkpiewrlduws.supabase.co';
 const SB_KEY='sb_publishable_bWX0a-p0B2Zo8TMl8yD9fA_gfHnWWyA';
 async function sbFetch(path,method='GET',body=null){
   // 로그인한 경우 사용자 토큰으로 호출 → RLS(auth.uid()) 정책이 제대로 동작
+  await ensureToken();
   const tok=getUTok()||SB_KEY;
   const opts={method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+tok,'Content-Type':'application/json','Prefer':'return=representation'}};
   if(body)opts.body=JSON.stringify(body);
@@ -566,6 +567,38 @@ function getUID(){return localStorage.getItem('enggo_uid')||null;}
 function setUID(v){localStorage.setItem('enggo_uid',v);}
 function setUTok(v){localStorage.setItem('enggo_token',v);}
 function getUTok(){return localStorage.getItem('enggo_token')||null;}
+function setRTok(v){localStorage.setItem('enggo_rtoken',v);}
+function getRTok(){return localStorage.getItem('enggo_rtoken')||null;}
+function setTokExp(sec){localStorage.setItem('enggo_token_exp',String(Date.now()+(sec||3600)*1000));}
+function getTokExp(){return Number(localStorage.getItem('enggo_token_exp')||0);}
+function clearUserTokens(){
+  localStorage.removeItem('enggo_uid');localStorage.removeItem('enggo_token');
+  localStorage.removeItem('enggo_rtoken');localStorage.removeItem('enggo_token_exp');
+}
+// 액세스 토큰이 만료됐거나 곧 만료될 경우 refresh_token으로 갱신
+// (Supabase 액세스 토큰은 보통 1시간 후 만료됨)
+let _refreshing=null;
+async function ensureToken(){
+  if(!getUTok())return;
+  const rtok=getRTok();
+  if(!rtok){
+    // 옛 버전에서 로그인한 토큰 — refresh_token이 없어 갱신 불가 → 재로그인 필요
+    if(Date.now()>=getTokExp())clearUserTokens();
+    return;
+  }
+  if(Date.now()<getTokExp()-60000)return; // 아직 유효 (만료 1분 전까지는 그대로 사용)
+  if(_refreshing)return _refreshing;
+  _refreshing=(async()=>{
+    try{
+      const r=await fetch(SB_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:rtok})});
+      const d=await r.json();
+      if(d.access_token){setUTok(d.access_token);setRTok(d.refresh_token);setTokExp(d.expires_in);}
+      else clearUserTokens();
+    }catch(e){}
+    finally{_refreshing=null;}
+  })();
+  return _refreshing;
+}
 
 // ══ DB 레이어 ══
 function td(){return new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\.\s?/g,'-').replace(/-$/,'')}
@@ -1128,6 +1161,7 @@ async function apiCall(prompt,maxTok=800,history=[],sys){
   if(now-_lastAI<AI_MIN_INTERVAL){showToast('⏳ 잠깐만요! 너무 빨라요');throw new Error('rate limit');}
   if(!aiQuotaOk()){showToast('오늘 AI 사용량을 다 썼어요. 내일 만나요! 🌙');throw new Error('daily quota');}
   _lastAI=now;
+  await ensureToken();
   let contents=[];
   if(prompt){contents=sys?[{role:'user',parts:[{text:sys+'\n\n'+prompt}]}]:[{role:'user',parts:[{text:prompt}]}];}
   else{if(sys)contents=[{role:'user',parts:[{text:sys}]},{role:'model',parts:[{text:'Understood.'}]}];history.forEach(m=>{contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});});}
@@ -1172,7 +1206,7 @@ async function doSignup(){
     const r=await fetch(SB_URL+'/auth/v1/signup',{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password:pw})});
     const d=await r.json();
     if(d.error){msg.style.color='var(--coral)';msg.textContent=d.error.message;return;}
-    if(d.user){await sbFetch('users','POST',{id:d.user.id,email,nickname:nick});setUID(d.user.id);if(d.session)setUTok(d.session.access_token);U.nickname=nick;}
+    if(d.user){await sbFetch('users','POST',{id:d.user.id,email,nickname:nick});setUID(d.user.id);if(d.session){setUTok(d.session.access_token);setRTok(d.session.refresh_token);setTokExp(d.session.expires_in);}U.nickname=nick;}
     msg.style.color='var(--mint)';msg.textContent='✅ 가입 완료! 로그인해 주세요.';
   }catch(e){msg.style.color='var(--coral)';msg.textContent='오류가 발생했어요.';}
 }
@@ -1186,7 +1220,7 @@ async function doLogin(){
     const r=await fetch(SB_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password:pw})});
     const d=await r.json();
     if(d.error){msg.style.color='var(--coral)';msg.textContent=d.error.message||'로그인 실패';return;}
-    setUID(d.user.id);setUTok(d.access_token);
+    setUID(d.user.id);setUTok(d.access_token);setRTok(d.refresh_token);setTokExp(d.expires_in);
     U.name=d.user.email.split('@')[0];
     try{const u=await sbFetch('users?id=eq.'+d.user.id+'&select=nickname');if(u&&u.length&&u[0].nickname)U.nickname=u[0].nickname;}catch(e){}
     msg.style.color='var(--mint)';msg.textContent='✅ 로그인 성공!';
@@ -1196,7 +1230,7 @@ async function doLogin(){
 async function doLogout(){
   if(!confirm('로그아웃 할까요?'))return;
   try{await fetch(SB_URL+'/auth/v1/logout',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+getUTok()}});}catch(e){}
-  localStorage.removeItem('enggo_uid');localStorage.removeItem('enggo_token');
+  clearUserTokens();
   showToast('로그아웃 됐어요');setTimeout(()=>go('sc-login'),600);
 }
 
@@ -1213,6 +1247,7 @@ if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.ser
 (async function init(){
   document.getElementById('login-mascot').innerHTML=mascotSVG(1,120,'happy',true);
   initWriteTopics();initChatTopics();
+  await ensureToken();
   const uid=getUID();
   if(!uid){go('sc-login');return;}
   try{const u=await sbFetch('users?id=eq.'+uid+'&select=nickname');if(u&&u[0]?.nickname)U.nickname=u[0].nickname;}catch(e){}
